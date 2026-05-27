@@ -16,6 +16,24 @@ The goal is to keep all data on the user's computer while providing a simple int
 - Prisma for database access.
 - SQLite for local data storage.
 
+## Project Structure
+
+```text
+src/
+  api/      NestJS API and Prisma setup
+  client/   Angular client
+```
+
+## Development
+
+Use the Node.js version defined in `.nvmrc`.
+
+```bash
+npm run client:start
+npm run api:start:dev
+npm run build
+```
+
 ## Project Status
 
-This project is in its initial setup phase. The README will be expanded as the application structure, commands, and features are added.
+This project is in its initial setup phase. The README will be expanded as features are added.

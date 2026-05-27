@@ -1,0 +1,34 @@
+{
+  "name": "autosuivi",
+  "version": "1.0.0",
+  "description": "AutoSuivi is a local-first vehicle tracking application for managing purchased vehicles, restoration expenses, and estimated resale profitability.",
+  "private": true,
+  "workspaces": [
+    "src/client",
+    "src/api"
+  ],
+  "scripts": {
+    "client:start": "npm --prefix src/client start",
+    "client:build": "npm --prefix src/client run build",
+    "api:start": "npm --prefix src/api run start",
+    "api:start:dev": "npm --prefix src/api run start:dev",
+    "api:build": "npm --prefix src/api run build",
+    "api:prisma:generate": "npm --prefix src/api run prisma:generate",
+    "build": "npm run client:build && npm run api:build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jbristhuille/AutoSuivi.git"
+  },
+  "keywords": [
+    "vehicle",
+    "restoration",
+    "tracking"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jbristhuille/AutoSuivi/issues"
+  },
+  "homepage": "https://github.com/Jbristhuille/AutoSuivi#readme"
+}
