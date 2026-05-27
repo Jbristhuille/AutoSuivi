@@ -50,4 +50,6 @@
   (confirmed)="confirmDelete()"
 />
 
+<app-toast-list [toasts]="toasts()" (dismissed)="dismissToast($event)" />
+
 <router-outlet />

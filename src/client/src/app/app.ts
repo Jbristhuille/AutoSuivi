@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { PortfolioSummaryComponent } from './portfolio-summary/portfolio-summary';
 import { ConfirmModalComponent } from './shared/confirm-modal.component';
 import { ModalComponent } from './shared/modal.component';
+import { Toast, ToastListComponent, ToastVariant } from './shared/toast-list.component';
 import {
   getPortfolioInvestmentCents,
   getPortfolioTargetMarginCents,
@@ -21,6 +22,7 @@ import { VehiclesApiService } from './vehicles/vehicles-api.service';
     ModalComponent,
     PortfolioSummaryComponent,
     RouterOutlet,
+    ToastListComponent,
     VehicleFormComponent,
     VehicleListComponent,
   ],
@@ -40,6 +42,7 @@ export class App {
   protected readonly vehicleFormOpen = signal(false);
   protected readonly addingExpenseVehicleId = signal<string | null>(null);
   protected readonly deletingExpenseId = signal<string | null>(null);
+  protected readonly toasts = signal<Toast[]>([]);
   protected readonly pendingDelete = signal<
     | { type: 'vehicle'; id: string; label: string }
     | { type: 'expense'; expenseId: string; vehicleId: string }
@@ -83,6 +86,7 @@ export class App {
       },
       error: () => {
         this.error.set('Unable to load vehicles. Check that the API is running.');
+        this.showToast('Unable to load vehicles. Check that the API is running.', 'error');
         this.loading.set(false);
       },
     });
@@ -91,6 +95,7 @@ export class App {
   protected saveVehicle(payload: CreateVehiclePayload) {
     if (!payload.brand.trim() || !payload.model.trim()) {
       this.error.set('Brand and model are required.');
+      this.showToast('Brand and model are required.', 'error');
       return;
     }
 
@@ -138,10 +143,12 @@ export class App {
         this.formResetVersion.update((version) => version + 1);
         this.vehicleFormOpen.set(false);
         this.saving.set(false);
+        this.showToast('Vehicle added.', 'success');
       },
       error: () => {
         this.error.set('Unable to save this vehicle.');
         this.saving.set(false);
+        this.showToast('Unable to save this vehicle.', 'error');
       },
     });
   }
@@ -159,10 +166,12 @@ export class App {
         this.formResetVersion.update((version) => version + 1);
         this.vehicleFormOpen.set(false);
         this.saving.set(false);
+        this.showToast('Vehicle updated.', 'success');
       },
       error: () => {
         this.error.set('Unable to save this vehicle.');
         this.saving.set(false);
+        this.showToast('Unable to save this vehicle.', 'error');
       },
     });
   }
@@ -208,10 +217,12 @@ export class App {
           this.formResetVersion.update((version) => version + 1);
         }
         this.deletingVehicleId.set(null);
+        this.showToast('Vehicle deleted.', 'success');
       },
       error: () => {
         this.error.set('Unable to delete this vehicle.');
         this.deletingVehicleId.set(null);
+        this.showToast('Unable to delete this vehicle.', 'error');
       },
     });
   }
@@ -226,10 +237,12 @@ export class App {
           vehicles.map((vehicle) => (vehicle.id === event.vehicleId ? updatedVehicle : vehicle)),
         );
         this.addingExpenseVehicleId.set(null);
+        this.showToast('Expense added.', 'success');
       },
       error: () => {
         this.error.set('Unable to add this expense.');
         this.addingExpenseVehicleId.set(null);
+        this.showToast('Unable to add this expense.', 'error');
       },
     });
   }
@@ -248,11 +261,29 @@ export class App {
           vehicles.map((vehicle) => (vehicle.id === event.vehicleId ? updatedVehicle : vehicle)),
         );
         this.deletingExpenseId.set(null);
+        this.showToast('Expense deleted.', 'success');
       },
       error: () => {
         this.error.set('Unable to delete this expense.');
         this.deletingExpenseId.set(null);
+        this.showToast('Unable to delete this expense.', 'error');
       },
     });
+  }
+
+  protected dismissToast(id: number) {
+    this.toasts.update((toasts) =>
+      toasts.map((toast) => (toast.id === id ? { ...toast, leaving: true } : toast)),
+    );
+    window.setTimeout(() => {
+      this.toasts.update((toasts) => toasts.filter((toast) => toast.id !== id));
+    }, 180);
+  }
+
+  private showToast(message: string, variant: ToastVariant) {
+    const id = Date.now() + Math.floor(Math.random() * 1000);
+
+    this.toasts.update((toasts) => [...toasts, { id, message, variant }]);
+    window.setTimeout(() => this.dismissToast(id), 4500);
   }
 }

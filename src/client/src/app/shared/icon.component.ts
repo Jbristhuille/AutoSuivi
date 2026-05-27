@@ -1,9 +1,30 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
-type IconName = 'pencil' | 'refresh' | 'trash' | 'x';
+export type IconName =
+  | 'alert-circle'
+  | 'check-circle'
+  | 'info-circle'
+  | 'pencil'
+  | 'refresh'
+  | 'trash'
+  | 'x';
 
 const ICON_PATHS: Record<IconName, string[]> = {
+  'alert-circle': [
+    'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z',
+    'M12 8v4',
+    'M12 16h.01',
+  ],
+  'check-circle': [
+    'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z',
+    'M8 12l3 3 5-6',
+  ],
+  'info-circle': [
+    'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z',
+    'M12 16v-4',
+    'M12 8h.01',
+  ],
   pencil: [
     'M12 20h9',
     'M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z',
