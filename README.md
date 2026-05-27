@@ -2,6 +2,8 @@
 
 AutoSuivi is a local-first vehicle tracking application for managing purchased vehicles, restoration expenses, and estimated resale profitability.
 
+This project is built with the help of Codex.
+
 The goal is to keep all data on the user's computer while providing a simple interface to:
 
 - Register vehicles with key information such as plate number, model, year, mileage, purchase price, and target sale price.
