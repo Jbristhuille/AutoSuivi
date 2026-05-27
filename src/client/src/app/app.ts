@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PortfolioSummaryComponent } from './portfolio-summary/portfolio-summary';
+import { ConfirmModalComponent } from './shared/confirm-modal.component';
 import { ModalComponent } from './shared/modal.component';
 import {
   getPortfolioInvestmentCents,
@@ -16,6 +17,7 @@ import { VehiclesApiService } from './vehicles/vehicles-api.service';
   selector: 'app-root',
   imports: [
     CommonModule,
+    ConfirmModalComponent,
     ModalComponent,
     PortfolioSummaryComponent,
     RouterOutlet,
@@ -38,6 +40,28 @@ export class App {
   protected readonly vehicleFormOpen = signal(false);
   protected readonly addingExpenseVehicleId = signal<string | null>(null);
   protected readonly deletingExpenseId = signal<string | null>(null);
+  protected readonly pendingDelete = signal<
+    | { type: 'vehicle'; id: string; label: string }
+    | { type: 'expense'; expenseId: string; vehicleId: string }
+    | null
+  >(null);
+
+  protected readonly deleteConfirmTitle = computed(() =>
+    this.pendingDelete()?.type === 'vehicle' ? 'Delete vehicle' : 'Delete expense',
+  );
+  protected readonly deleteConfirmMessage = computed(() => {
+    const pendingDelete = this.pendingDelete();
+
+    if (!pendingDelete) {
+      return '';
+    }
+
+    if (pendingDelete.type === 'vehicle') {
+      return `Delete ${pendingDelete.label}? This will also remove its expenses.`;
+    }
+
+    return 'Delete this expense?';
+  });
 
   protected readonly totalInvestmentCents = computed(() => getPortfolioInvestmentCents(this.vehicles()));
   protected readonly totalTargetMarginCents = computed(() =>
@@ -147,10 +171,31 @@ export class App {
     const vehicle = this.vehicles().find((item) => item.id === id);
     const label = vehicle ? `${vehicle.brand} ${vehicle.model}` : 'this vehicle';
 
-    if (!confirm(`Delete ${label}?`)) {
+    this.pendingDelete.set({ type: 'vehicle', id, label });
+  }
+
+  protected confirmDelete() {
+    const pendingDelete = this.pendingDelete();
+
+    if (!pendingDelete) {
       return;
     }
 
+    this.pendingDelete.set(null);
+
+    if (pendingDelete.type === 'vehicle') {
+      this.removeVehicle(pendingDelete.id);
+      return;
+    }
+
+    this.removeExpense(pendingDelete);
+  }
+
+  protected cancelDelete() {
+    this.pendingDelete.set(null);
+  }
+
+  private removeVehicle(id: string) {
     this.deletingVehicleId.set(id);
     this.error.set('');
 
@@ -190,10 +235,10 @@ export class App {
   }
 
   protected deleteExpense(event: { expenseId: string; vehicleId: string }) {
-    if (!confirm('Delete this expense?')) {
-      return;
-    }
+    this.pendingDelete.set({ type: 'expense', ...event });
+  }
 
+  private removeExpense(event: { expenseId: string; vehicleId: string }) {
     this.deletingExpenseId.set(event.expenseId);
     this.error.set('');
 

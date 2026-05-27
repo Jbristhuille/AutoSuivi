@@ -41,4 +41,13 @@
   />
 </app-modal>
 
+<app-confirm-modal
+  *ngIf="pendingDelete()"
+  [title]="deleteConfirmTitle()"
+  [message]="deleteConfirmMessage()"
+  confirmLabel="Delete"
+  (cancelled)="cancelDelete()"
+  (confirmed)="confirmDelete()"
+/>
+
 <router-outlet />

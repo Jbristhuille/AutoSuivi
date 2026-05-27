@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
-type IconName = 'pencil' | 'refresh' | 'trash';
+type IconName = 'pencil' | 'refresh' | 'trash' | 'x';
 
 const ICON_PATHS: Record<IconName, string[]> = {
   pencil: [
@@ -21,6 +21,7 @@ const ICON_PATHS: Record<IconName, string[]> = {
     'M10 11v6',
     'M14 11v6',
   ],
+  x: ['M18 6 6 18', 'M6 6l12 12'],
 };
 
 @Component({

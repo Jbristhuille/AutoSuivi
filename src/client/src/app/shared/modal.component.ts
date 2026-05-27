@@ -1,13 +1,17 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IconComponent } from './icon.component';
 
 @Component({
   selector: 'app-modal',
+  imports: [IconComponent],
   template: `
     <section class="modal-backdrop" (click)="close()">
       <div class="modal-panel" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
         <div class="modal-head">
           <h2>{{ title }}</h2>
-          <button type="button" (click)="close()">Close</button>
+          <button type="button" aria-label="Close modal" title="Close modal" (click)="close()">
+            <app-icon name="x" />
+          </button>
         </div>
 
         <ng-content />
@@ -49,15 +53,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       }
 
       button {
-        min-height: 34px;
+        display: inline-flex;
+        width: 34px;
+        height: 34px;
+        align-items: center;
+        justify-content: center;
         border: 1px solid #cad3c4;
         border-radius: 6px;
-        padding: 0 12px;
+        padding: 0;
         color: #17211a;
         background: #ffffff;
         font: inherit;
-        font-size: 0.86rem;
-        font-weight: 700;
         cursor: pointer;
       }
 
