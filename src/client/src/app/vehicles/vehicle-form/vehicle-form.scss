@@ -74,6 +74,12 @@ button {
   font: inherit;
   font-weight: 700;
   cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    transform 120ms ease;
 }
 
 button:disabled {
@@ -81,10 +87,26 @@ button:disabled {
   opacity: 0.6;
 }
 
+button:not(:disabled):hover {
+  background: #195c43;
+  box-shadow: 0 8px 18px rgb(23 33 26 / 0.12);
+  transform: translateY(-1px);
+}
+
+button:not(:disabled):active {
+  box-shadow: none;
+  transform: translateY(0) scale(0.97);
+}
+
 .ghost {
   border: 1px solid #cad3c4;
   color: #17211a;
   background: #ffffff;
+}
+
+.ghost:not(:disabled):hover {
+  border-color: #aebaaa;
+  background: #fbfcf8;
 }
 
 .error {
@@ -95,5 +117,11 @@ button:disabled {
 @media (max-width: 640px) {
   .field-row {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button {
+    transition: none;
   }
 }

@@ -99,10 +99,28 @@ export type Toast = {
         color: #657267;
         background: transparent;
         cursor: pointer;
+        transition:
+          background-color 160ms ease,
+          color 160ms ease,
+          transform 120ms ease;
+      }
+
+      button app-icon {
+        transition: transform 160ms ease;
       }
 
       button:hover {
+        color: #17211a;
         background: #f4f6f1;
+        transform: translateY(-1px);
+      }
+
+      button:hover app-icon {
+        transform: rotate(90deg);
+      }
+
+      button:active {
+        transform: translateY(0) scale(0.95);
       }
 
       button:disabled {
@@ -135,6 +153,11 @@ export type Toast = {
       }
 
       @media (prefers-reduced-motion: reduce) {
+        button,
+        button app-icon {
+          transition: none;
+        }
+
         .toast,
         .leaving {
           animation: none;

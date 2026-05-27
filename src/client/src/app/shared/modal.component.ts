@@ -9,7 +9,7 @@ import { IconComponent } from './icon.component';
       <div class="modal-panel" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
         <div class="modal-head">
           <h2>{{ title }}</h2>
-          <button type="button" aria-label="Close modal" title="Close modal" (click)="close()">
+          <button type="button" class="modal-close" aria-label="Close modal" title="Close modal" (click)="close()">
             <app-icon name="x" />
           </button>
         </div>
@@ -52,7 +52,7 @@ import { IconComponent } from './icon.component';
         font-size: 1.1rem;
       }
 
-      button {
+      .modal-close {
         display: inline-flex;
         width: 34px;
         height: 34px;
@@ -65,11 +65,43 @@ import { IconComponent } from './icon.component';
         background: #ffffff;
         font: inherit;
         cursor: pointer;
+        transition:
+          background-color 160ms ease,
+          border-color 160ms ease,
+          box-shadow 160ms ease,
+          transform 120ms ease;
+      }
+
+      .modal-close app-icon {
+        transition: transform 160ms ease;
+      }
+
+      .modal-close:hover {
+        border-color: #aebaaa;
+        background: #fbfcf8;
+        box-shadow: 0 8px 18px rgb(23 33 26 / 0.12);
+        transform: translateY(-1px);
+      }
+
+      .modal-close:hover app-icon {
+        transform: rotate(90deg);
+      }
+
+      .modal-close:active {
+        box-shadow: none;
+        transform: translateY(0) scale(0.97);
       }
 
       @media (max-width: 640px) {
         .modal-backdrop {
           padding: 24px 16px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .modal-close,
+        .modal-close app-icon {
+          transition: none;
         }
       }
     `,

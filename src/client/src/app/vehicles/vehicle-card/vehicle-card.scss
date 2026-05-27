@@ -37,6 +37,17 @@
   font: inherit;
   text-align: left;
   cursor: pointer;
+  transition:
+    color 160ms ease,
+    transform 120ms ease;
+}
+
+.vehicle-summary:hover {
+  color: #1f6f51;
+}
+
+.vehicle-summary:active {
+  transform: translateY(1px);
 }
 
 .vehicle-summary::before {
@@ -95,6 +106,16 @@
   padding: 0;
   font: inherit;
   cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    transform 120ms ease;
+}
+
+.icon-button app-icon {
+  transition: transform 160ms ease;
 }
 
 .edit-button {
@@ -103,10 +124,35 @@
   background: #ffffff;
 }
 
+.edit-button:hover {
+  border-color: #aebaaa;
+  background: #fbfcf8;
+}
+
 .delete-button {
   border: 1px solid #f0b4ad;
   color: #b42318;
   background: #fff8f7;
+}
+
+.delete-button:hover,
+.expense-delete-button:hover {
+  border-color: #e68077;
+  background: #fff1ef;
+}
+
+.icon-button:not(:disabled):hover {
+  box-shadow: 0 8px 18px rgb(23 33 26 / 0.12);
+  transform: translateY(-1px);
+}
+
+.icon-button:not(:disabled):hover app-icon {
+  transform: rotate(8deg) scale(1.04);
+}
+
+.icon-button:not(:disabled):active {
+  box-shadow: none;
+  transform: translateY(0) scale(0.97);
 }
 
 .edit-button:disabled,
@@ -176,6 +222,17 @@ dd {
   font: inherit;
   text-align: left;
   cursor: pointer;
+  transition:
+    color 160ms ease,
+    transform 120ms ease;
+}
+
+.section-head:hover {
+  color: #1f6f51;
+}
+
+.section-head:active {
+  transform: translateY(1px);
 }
 
 .section-head::before {
@@ -255,6 +312,21 @@ dd {
   font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 120ms ease;
+}
+
+.expense-form button:not(:disabled):hover {
+  background: #195c43;
+  box-shadow: 0 8px 18px rgb(23 33 26 / 0.12);
+  transform: translateY(-1px);
+}
+
+.expense-form button:not(:disabled):active {
+  box-shadow: none;
+  transform: translateY(0) scale(0.97);
 }
 
 .expense-form button:disabled {
@@ -354,5 +426,15 @@ dd {
   .expense-line {
     grid-template-columns: 1fr;
     gap: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vehicle-summary,
+  .section-head,
+  .icon-button,
+  .icon-button app-icon,
+  .expense-form button {
+    transition: none;
   }
 }

@@ -43,6 +43,12 @@ button {
   font-size: 0.86rem;
   font-weight: 700;
   cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    transform 120ms ease;
 }
 
 button:disabled {
@@ -50,9 +56,23 @@ button:disabled {
   opacity: 0.6;
 }
 
+button:not(:disabled):hover {
+  box-shadow: 0 8px 18px rgb(23 33 26 / 0.12);
+  transform: translateY(-1px);
+}
+
+button:not(:disabled):active {
+  box-shadow: none;
+  transform: translateY(0) scale(0.97);
+}
+
 .primary {
   color: #ffffff;
   background: #1f6f51;
+}
+
+.primary:hover {
+  background: #195c43;
 }
 
 .icon-button {
@@ -64,10 +84,23 @@ button:disabled {
   padding: 0;
 }
 
+.icon-button app-icon {
+  transition: transform 160ms ease;
+}
+
+.icon-button:not(:disabled):hover app-icon {
+  transform: rotate(90deg);
+}
+
 .ghost {
   border: 1px solid #cad3c4;
   color: #17211a;
   background: #ffffff;
+}
+
+.ghost:hover {
+  border-color: #aebaaa;
+  background: #fbfcf8;
 }
 
 .empty {
@@ -78,5 +111,12 @@ button:disabled {
 @media (max-width: 640px) {
   .list-head {
     align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button,
+  .icon-button app-icon {
+    transition: none;
   }
 }

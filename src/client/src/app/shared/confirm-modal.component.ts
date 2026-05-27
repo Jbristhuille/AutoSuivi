@@ -49,6 +49,22 @@ import { ModalComponent } from './modal.component';
         font-size: 0.86rem;
         font-weight: 700;
         cursor: pointer;
+        transition:
+          background-color 160ms ease,
+          border-color 160ms ease,
+          box-shadow 160ms ease,
+          color 160ms ease,
+          transform 120ms ease;
+      }
+
+      button:hover {
+        box-shadow: 0 8px 18px rgb(23 33 26 / 0.12);
+        transform: translateY(-1px);
+      }
+
+      button:active {
+        box-shadow: none;
+        transform: translateY(0) scale(0.97);
       }
 
       .ghost {
@@ -57,10 +73,26 @@ import { ModalComponent } from './modal.component';
         background: #ffffff;
       }
 
+      .ghost:hover {
+        border-color: #aebaaa;
+        background: #fbfcf8;
+      }
+
       .danger {
         border: 1px solid #f0b4ad;
         color: #ffffff;
         background: #b42318;
+      }
+
+      .danger:hover {
+        border-color: #e68077;
+        background: #961c14;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        button {
+          transition: none;
+        }
       }
     `,
   ],
