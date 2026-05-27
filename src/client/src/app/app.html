@@ -1,10 +1,30 @@
 <main class="app-shell">
-  <section class="intro">
-    <p class="eyebrow">Local-first vehicle tracking</p>
-    <h1>AutoSuivi</h1>
-    <p class="summary">
-      Track vehicles, restoration expenses, and estimated resale margins from a local application.
-    </p>
+  <section class="topbar">
+    <div>
+      <p class="eyebrow">Local-first vehicle tracking</p>
+      <h1>AutoSuivi</h1>
+    </div>
+
+    <app-portfolio-summary
+      [vehicleCount]="vehicles().length"
+      [totalInvestmentCents]="totalInvestmentCents()"
+      [totalTargetMarginCents]="totalTargetMarginCents()"
+    />
+  </section>
+
+  <section class="workspace">
+    <app-vehicle-form
+      [saving]="saving()"
+      [error]="error()"
+      [resetVersion]="formResetVersion()"
+      (vehicleCreated)="createVehicle($event)"
+    />
+
+    <app-vehicle-list
+      [vehicles]="vehicles()"
+      [loading]="loading()"
+      (refresh)="loadVehicles()"
+    />
   </section>
 </main>
 
