@@ -7,7 +7,7 @@ import {
 } from './vehicles/vehicle-calculations';
 import { VehicleFormComponent } from './vehicles/vehicle-form/vehicle-form';
 import { VehicleListComponent } from './vehicles/vehicle-list/vehicle-list';
-import { CreateVehiclePayload, Vehicle } from './vehicles/vehicle.model';
+import { CreateExpensePayload, CreateVehiclePayload, Vehicle } from './vehicles/vehicle.model';
 import { VehiclesApiService } from './vehicles/vehicles-api.service';
 
 @Component({
@@ -26,6 +26,7 @@ export class App {
   protected readonly formResetVersion = signal(0);
   protected readonly deletingVehicleId = signal<string | null>(null);
   protected readonly editingVehicle = signal<Vehicle | null>(null);
+  protected readonly addingExpenseVehicleId = signal<string | null>(null);
 
   protected readonly totalInvestmentCents = computed(() => getPortfolioInvestmentCents(this.vehicles()));
   protected readonly totalTargetMarginCents = computed(() =>
@@ -139,6 +140,24 @@ export class App {
       error: () => {
         this.error.set('Unable to delete this vehicle.');
         this.deletingVehicleId.set(null);
+      },
+    });
+  }
+
+  protected addExpense(event: { payload: CreateExpensePayload; vehicleId: string }) {
+    this.addingExpenseVehicleId.set(event.vehicleId);
+    this.error.set('');
+
+    this.vehiclesApi.addExpense(event.vehicleId, event.payload).subscribe({
+      next: (updatedVehicle) => {
+        this.vehicles.update((vehicles) =>
+          vehicles.map((vehicle) => (vehicle.id === event.vehicleId ? updatedVehicle : vehicle)),
+        );
+        this.addingExpenseVehicleId.set(null);
+      },
+      error: () => {
+        this.error.set('Unable to add this expense.');
+        this.addingExpenseVehicleId.set(null);
       },
     });
   }

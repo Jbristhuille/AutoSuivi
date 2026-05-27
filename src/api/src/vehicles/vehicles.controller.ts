@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import type { CreateExpenseDto } from './dto/create-expense.dto';
 import type { CreateVehicleDto } from './dto/create-vehicle.dto';
 import type { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { VehiclesService } from './vehicles.service';
@@ -20,6 +21,11 @@ export class VehiclesController {
   @Put(':id')
   update(@Param('id') id: string, @Body() updateVehicleDto: UpdateVehicleDto) {
     return this.vehiclesService.update(id, updateVehicleDto);
+  }
+
+  @Post(':id/expenses')
+  addExpense(@Param('id') id: string, @Body() createExpenseDto: CreateExpenseDto) {
+    return this.vehiclesService.addExpense(id, createExpenseDto);
   }
 
   @Delete(':id')

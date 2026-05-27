@@ -11,7 +11,9 @@
     *ngFor="let vehicle of vehicles"
     [vehicle]="vehicle"
     [deleting]="deletingVehicleId === vehicle.id"
+    [addingExpense]="addingExpenseVehicleId === vehicle.id"
     (deleteRequested)="deleteVehicle.emit($event)"
     (editRequested)="editVehicle.emit($event)"
+    (expenseSubmitted)="addExpense.emit($event)"
   />
 </section>

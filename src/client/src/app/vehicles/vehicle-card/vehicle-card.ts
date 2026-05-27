@@ -1,25 +1,45 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { LocalDatePipe } from '../../shared/local-date.pipe';
 import { MoneyPipe } from '../../shared/money.pipe';
-import { getVehicleInvestmentCents, getVehicleMarginCents } from '../vehicle-calculations';
-import { Vehicle } from '../vehicle.model';
+import {
+  getVehicleExpensesTotalCents,
+  getVehicleInvestmentCents,
+  getVehicleMarginCents,
+} from '../vehicle-calculations';
+import { CreateExpensePayload, ExpenseForm, Vehicle } from '../vehicle.model';
 
 @Component({
   selector: 'app-vehicle-card',
-  imports: [CommonModule, LocalDatePipe, MoneyPipe],
+  imports: [CommonModule, FormsModule, LocalDatePipe, MoneyPipe],
   templateUrl: './vehicle-card.html',
   styleUrl: './vehicle-card.scss',
 })
 export class VehicleCardComponent {
   @Input({ required: true }) vehicle!: Vehicle;
   @Input() deleting = false;
+  @Input() addingExpense = false;
 
   @Output() deleteRequested = new EventEmitter<string>();
   @Output() editRequested = new EventEmitter<Vehicle>();
+  @Output() expenseSubmitted = new EventEmitter<{
+    payload: CreateExpensePayload;
+    vehicleId: string;
+  }>();
+
+  protected readonly expenseForm: ExpenseForm = {
+    label: '',
+    amount: null,
+    spentAt: this.getTodayInputDate(),
+  };
 
   protected investmentCents() {
     return getVehicleInvestmentCents(this.vehicle);
+  }
+
+  protected expensesTotalCents() {
+    return getVehicleExpensesTotalCents(this.vehicle);
   }
 
   protected marginCents() {
@@ -32,5 +52,31 @@ export class VehicleCardComponent {
 
   protected requestEdit() {
     this.editRequested.emit(this.vehicle);
+  }
+
+  protected submitExpense() {
+    if (!this.expenseForm.label.trim() || !this.expenseForm.amount || !this.expenseForm.spentAt) {
+      return;
+    }
+
+    this.expenseSubmitted.emit({
+      vehicleId: this.vehicle.id,
+      payload: {
+        label: this.expenseForm.label.trim(),
+        amountCents: Math.round(Number(this.expenseForm.amount) * 100),
+        spentAt: this.expenseForm.spentAt,
+      },
+    });
+    this.resetExpenseForm();
+  }
+
+  protected resetExpenseForm() {
+    this.expenseForm.label = '';
+    this.expenseForm.amount = null;
+    this.expenseForm.spentAt = this.getTodayInputDate();
+  }
+
+  private getTodayInputDate() {
+    return new Date().toISOString().slice(0, 10);
   }
 }

@@ -1,6 +1,8 @@
 export type Expense = {
   id: string;
+  label: string;
   amountCents: number;
+  spentAt: string;
 };
 
 export type Vehicle = {
@@ -29,6 +31,18 @@ export type CreateVehiclePayload = {
 };
 
 export type UpdateVehiclePayload = CreateVehiclePayload;
+
+export type CreateExpensePayload = {
+  label: string;
+  amountCents: number;
+  spentAt: string;
+};
+
+export type ExpenseForm = {
+  label: string;
+  amount: number | null;
+  spentAt: string;
+};
 
 export type VehicleForm = {
   plateNumber: string;

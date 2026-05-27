@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
+import type { CreateExpenseDto } from './dto/create-expense.dto';
 import type { CreateVehicleDto } from './dto/create-vehicle.dto';
 import type { UpdateVehicleDto } from './dto/update-vehicle.dto';
 
@@ -10,9 +11,7 @@ export class VehiclesService {
 
   findAll() {
     return this.prisma.vehicle.findMany({
-      include: {
-        expenses: true,
-      },
+      include: this.vehicleInclude,
       orderBy: {
         createdAt: 'desc',
       },
@@ -24,9 +23,7 @@ export class VehiclesService {
 
     return this.prisma.vehicle.create({
       data,
-      include: {
-        expenses: true,
-      },
+      include: this.vehicleInclude,
     });
   }
 
@@ -37,9 +34,7 @@ export class VehiclesService {
           id,
         },
         data: this.getVehicleData(updateVehicleDto),
-        include: {
-          expenses: true,
-        },
+        include: this.vehicleInclude,
       });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
@@ -68,6 +63,57 @@ export class VehiclesService {
 
       throw error;
     }
+  }
+
+  async addExpense(id: string, createExpenseDto: CreateExpenseDto) {
+    await this.ensureVehicleExists(id);
+
+    const label = createExpenseDto.label?.trim();
+
+    if (!label) {
+      throw new BadRequestException('Expense label is required.');
+    }
+
+    const amountCents = this.requiredPositiveNumber(createExpenseDto.amountCents, 'Expense amount');
+    const spentAt = this.requiredDate(createExpenseDto.spentAt, 'Expense date');
+
+    await this.prisma.expense.create({
+      data: {
+        vehicleId: id,
+        label,
+        amountCents,
+        spentAt,
+      },
+    });
+
+    return this.findById(id);
+  }
+
+  private readonly vehicleInclude = {
+    expenses: {
+      orderBy: {
+        spentAt: 'desc' as const,
+      },
+    },
+  };
+
+  private async findById(id: string) {
+    const vehicle = await this.prisma.vehicle.findUnique({
+      where: {
+        id,
+      },
+      include: this.vehicleInclude,
+    });
+
+    if (!vehicle) {
+      throw new NotFoundException('Vehicle not found.');
+    }
+
+    return vehicle;
+  }
+
+  private async ensureVehicleExists(id: string) {
+    await this.findById(id);
   }
 
   private optionalText(value: string | null | undefined) {
@@ -99,6 +145,26 @@ export class VehiclesService {
     }
 
     return date;
+  }
+
+  private requiredDate(value: string | null | undefined, fieldName: string) {
+    const date = this.optionalDate(value);
+
+    if (!date) {
+      throw new BadRequestException(`${fieldName} is required.`);
+    }
+
+    return date;
+  }
+
+  private requiredPositiveNumber(value: number | null | undefined, fieldName: string) {
+    const number = this.optionalNumber(value);
+
+    if (number === null || number <= 0) {
+      throw new BadRequestException(`${fieldName} must be greater than zero.`);
+    }
+
+    return number;
   }
 
   private getVehicleData(vehicleDto: CreateVehicleDto | UpdateVehicleDto) {
