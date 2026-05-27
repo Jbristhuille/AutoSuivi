@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { IconComponent } from '../../shared/icon.component';
 import { LocalDatePipe } from '../../shared/local-date.pipe';
 import { MoneyPipe } from '../../shared/money.pipe';
 import {
@@ -12,7 +13,7 @@ import { CreateExpensePayload, ExpenseForm, Vehicle } from '../vehicle.model';
 
 @Component({
   selector: 'app-vehicle-card',
-  imports: [CommonModule, FormsModule, LocalDatePipe, MoneyPipe],
+  imports: [CommonModule, FormsModule, IconComponent, LocalDatePipe, MoneyPipe],
   templateUrl: './vehicle-card.html',
   styleUrl: './vehicle-card.scss',
 })

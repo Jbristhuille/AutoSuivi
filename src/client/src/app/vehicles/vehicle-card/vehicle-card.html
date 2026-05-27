@@ -6,9 +6,25 @@
     </button>
 
     <div class="vehicle-actions" *ngIf="vehicleExpanded">
-      <button type="button" class="edit-button" (click)="requestEdit()" [disabled]="deleting">Edit</button>
-      <button type="button" class="delete-button" (click)="requestDelete()" [disabled]="deleting">
-        {{ deleting ? 'Deleting...' : 'Delete' }}
+      <button
+        type="button"
+        class="icon-button edit-button"
+        (click)="requestEdit()"
+        [disabled]="deleting"
+        aria-label="Edit vehicle"
+        title="Edit vehicle"
+      >
+        <app-icon name="pencil" />
+      </button>
+      <button
+        type="button"
+        class="icon-button delete-button"
+        (click)="requestDelete()"
+        [disabled]="deleting"
+        [attr.aria-label]="deleting ? 'Deleting vehicle' : 'Delete vehicle'"
+        [attr.title]="deleting ? 'Deleting vehicle' : 'Delete vehicle'"
+      >
+        <app-icon name="trash" />
       </button>
     </div>
   </header>
@@ -93,8 +109,15 @@
             <span>{{ expense.spentAt | localDate }}</span>
             <strong>{{ expense.amountCents | money }}</strong>
             <p>{{ expense.label }}</p>
-            <button type="button" (click)="requestExpenseDelete(expense.id)" [disabled]="deletingExpenseId === expense.id">
-              {{ deletingExpenseId === expense.id ? 'Deleting...' : 'Delete' }}
+            <button
+              type="button"
+              class="icon-button expense-delete-button"
+              (click)="requestExpenseDelete(expense.id)"
+              [disabled]="deletingExpenseId === expense.id"
+              [attr.aria-label]="deletingExpenseId === expense.id ? 'Deleting expense' : 'Delete expense'"
+              [attr.title]="deletingExpenseId === expense.id ? 'Deleting expense' : 'Delete expense'"
+            >
+              <app-icon name="trash" />
             </button>
           </div>
         </div>
