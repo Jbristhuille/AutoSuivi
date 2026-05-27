@@ -1,6 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PortfolioSummaryComponent } from './portfolio-summary/portfolio-summary';
+import { ModalComponent } from './shared/modal.component';
 import {
   getPortfolioInvestmentCents,
   getPortfolioTargetMarginCents,
@@ -12,7 +14,14 @@ import { VehiclesApiService } from './vehicles/vehicles-api.service';
 
 @Component({
   selector: 'app-root',
-  imports: [PortfolioSummaryComponent, RouterOutlet, VehicleFormComponent, VehicleListComponent],
+  imports: [
+    CommonModule,
+    ModalComponent,
+    PortfolioSummaryComponent,
+    RouterOutlet,
+    VehicleFormComponent,
+    VehicleListComponent,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -26,6 +35,7 @@ export class App {
   protected readonly formResetVersion = signal(0);
   protected readonly deletingVehicleId = signal<string | null>(null);
   protected readonly editingVehicle = signal<Vehicle | null>(null);
+  protected readonly vehicleFormOpen = signal(false);
   protected readonly addingExpenseVehicleId = signal<string | null>(null);
   protected readonly deletingExpenseId = signal<string | null>(null);
 
@@ -72,11 +82,24 @@ export class App {
 
   protected editVehicle(vehicle: Vehicle) {
     this.editingVehicle.set(vehicle);
+    this.vehicleFormOpen.set(true);
     this.error.set('');
   }
 
   protected cancelEdit() {
     this.editingVehicle.set(null);
+    this.vehicleFormOpen.set(false);
+    this.error.set('');
+    this.formResetVersion.update((version) => version + 1);
+  }
+
+  protected openVehicleForm() {
+    this.vehicleFormOpen.set(true);
+  }
+
+  protected closeVehicleForm() {
+    this.editingVehicle.set(null);
+    this.vehicleFormOpen.set(false);
     this.error.set('');
     this.formResetVersion.update((version) => version + 1);
   }
@@ -89,6 +112,7 @@ export class App {
       next: (vehicle) => {
         this.vehicles.update((vehicles) => [vehicle, ...vehicles]);
         this.formResetVersion.update((version) => version + 1);
+        this.vehicleFormOpen.set(false);
         this.saving.set(false);
       },
       error: () => {
@@ -109,6 +133,7 @@ export class App {
         );
         this.editingVehicle.set(null);
         this.formResetVersion.update((version) => version + 1);
+        this.vehicleFormOpen.set(false);
         this.saving.set(false);
       },
       error: () => {
@@ -134,6 +159,7 @@ export class App {
         this.vehicles.update((vehicles) => vehicles.filter((item) => item.id !== id));
         if (this.editingVehicle()?.id === id) {
           this.editingVehicle.set(null);
+          this.vehicleFormOpen.set(false);
           this.formResetVersion.update((version) => version + 1);
         }
         this.deletingVehicleId.set(null);

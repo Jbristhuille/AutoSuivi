@@ -13,21 +13,13 @@
   </section>
 
   <section class="workspace">
-    <app-vehicle-form
-      [saving]="saving()"
-      [error]="error()"
-      [resetVersion]="formResetVersion()"
-      [vehicle]="editingVehicle()"
-      (cancelled)="cancelEdit()"
-      (vehicleSubmitted)="saveVehicle($event)"
-    />
-
     <app-vehicle-list
       [vehicles]="vehicles()"
       [loading]="loading()"
       [deletingVehicleId]="deletingVehicleId()"
       [addingExpenseVehicleId]="addingExpenseVehicleId()"
       [deletingExpenseId]="deletingExpenseId()"
+      (createVehicle)="openVehicleForm()"
       (refresh)="loadVehicles()"
       (editVehicle)="editVehicle($event)"
       (deleteVehicle)="deleteVehicle($event)"
@@ -36,5 +28,17 @@
     />
   </section>
 </main>
+
+<app-modal *ngIf="vehicleFormOpen()" [title]="editingVehicle() ? 'Edit vehicle' : 'Add vehicle'" (closed)="closeVehicleForm()">
+  <app-vehicle-form
+    [saving]="saving()"
+    [error]="error()"
+    [resetVersion]="formResetVersion()"
+    [vehicle]="editingVehicle()"
+    [showHeader]="false"
+    (cancelled)="cancelEdit()"
+    (vehicleSubmitted)="saveVehicle($event)"
+  />
+</app-modal>
 
 <router-outlet />

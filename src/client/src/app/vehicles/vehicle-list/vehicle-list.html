@@ -1,7 +1,19 @@
 <section class="vehicle-list" aria-label="Vehicles">
   <div class="list-head">
     <h2>Vehicles</h2>
-    <button type="button" class="ghost" (click)="refresh.emit()" [disabled]="loading">Refresh</button>
+    <div class="list-actions">
+      <button type="button" class="primary" (click)="createVehicle.emit()">Add vehicle</button>
+      <button
+        type="button"
+        class="icon-button ghost"
+        (click)="refresh.emit()"
+        [disabled]="loading"
+        aria-label="Refresh vehicles"
+        title="Refresh vehicles"
+      >
+        <app-icon name="refresh" />
+      </button>
+    </div>
   </div>
 
   <p class="empty" *ngIf="loading">Loading vehicles...</p>

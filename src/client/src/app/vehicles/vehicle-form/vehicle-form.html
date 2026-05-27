@@ -1,5 +1,5 @@
 <form class="vehicle-form" (ngSubmit)="submit()">
-  <div class="form-head">
+  <div class="form-head" *ngIf="showHeader">
     <h2>{{ vehicle ? 'Edit vehicle' : 'Add vehicle' }}</h2>
     <button *ngIf="vehicle" type="button" class="ghost" (click)="cancelEdit()">Cancel</button>
   </div>

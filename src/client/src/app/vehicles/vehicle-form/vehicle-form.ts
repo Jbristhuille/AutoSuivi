@@ -14,6 +14,7 @@ export class VehicleFormComponent implements OnChanges {
   @Input() error = '';
   @Input() resetVersion = 0;
   @Input() vehicle: Vehicle | null = null;
+  @Input() showHeader = true;
 
   @Output() cancelled = new EventEmitter<void>();
   @Output() vehicleSubmitted = new EventEmitter<CreateVehiclePayload>();

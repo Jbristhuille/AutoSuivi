@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IconComponent } from '../../shared/icon.component';
 import { CreateExpensePayload, Vehicle } from '../vehicle.model';
 import { VehicleCardComponent } from '../vehicle-card/vehicle-card';
 
 @Component({
   selector: 'app-vehicle-list',
-  imports: [CommonModule, VehicleCardComponent],
+  imports: [CommonModule, IconComponent, VehicleCardComponent],
   templateUrl: './vehicle-list.html',
   styleUrl: './vehicle-list.scss',
 })
@@ -16,6 +17,7 @@ export class VehicleListComponent {
   @Input() addingExpenseVehicleId: string | null = null;
   @Input() deletingExpenseId: string | null = null;
 
+  @Output() createVehicle = new EventEmitter<void>();
   @Output() refresh = new EventEmitter<void>();
   @Output() deleteVehicle = new EventEmitter<string>();
   @Output() editVehicle = new EventEmitter<Vehicle>();
