@@ -81,29 +81,53 @@
 
         <div class="expense-details" [class.expanded]="expensesExpanded" [attr.aria-hidden]="!expensesExpanded">
           <div class="expense-details-inner" [attr.inert]="!expensesExpanded ? '' : null">
-            <form class="expense-form" (ngSubmit)="submitExpense()">
+            <form class="expense-form" (ngSubmit)="submitExpense()" novalidate>
               <label>
-                <span>Date</span>
-                <input name="spentAt-{{ vehicle.id }}" type="date" [(ngModel)]="expenseForm.spentAt" required />
+                <span>Date <em class="required-marker">*</em></span>
+                <input
+                  name="spentAt-{{ vehicle.id }}"
+                  type="date"
+                  [(ngModel)]="expenseForm.spentAt"
+                  (ngModelChange)="clearExpenseErrors()"
+                  [class.invalid]="hasExpenseError('spentAt')"
+                  required
+                />
+                <p class="field-error" *ngIf="hasExpenseError('spentAt')">{{ getExpenseError('spentAt') }}</p>
               </label>
               <label>
-                <span>Price</span>
+                <span>Price <em class="required-marker">*</em></span>
                 <input
                   name="amount-{{ vehicle.id }}"
                   type="number"
                   min="0"
                   step="10"
                   [(ngModel)]="expenseForm.amount"
+                  (ngModelChange)="clearExpenseErrors()"
+                  [class.invalid]="hasExpenseError('amount')"
+                  placeholder="e.g. 250"
                   required
                 />
+                <p class="field-error" *ngIf="hasExpenseError('amount')">{{ getExpenseError('amount') }}</p>
               </label>
               <label class="expense-label">
-                <span>Label</span>
-                <input name="label-{{ vehicle.id }}" [(ngModel)]="expenseForm.label" required autocomplete="off" />
+                <span>Label <em class="required-marker">*</em></span>
+                <input
+                  name="label-{{ vehicle.id }}"
+                  [(ngModel)]="expenseForm.label"
+                  (ngModelChange)="clearExpenseErrors()"
+                  [class.invalid]="hasExpenseError('label')"
+                  required
+                  autocomplete="off"
+                  placeholder="e.g. oil change"
+                />
+                <p class="field-error" *ngIf="hasExpenseError('label')">{{ getExpenseError('label') }}</p>
               </label>
-              <button type="submit" [disabled]="addingExpense">
-                {{ addingExpense ? 'Adding...' : 'Add expense' }}
-              </button>
+              <div class="expense-submit">
+                <span aria-hidden="true"></span>
+                <button type="submit" [disabled]="addingExpense">
+                  {{ addingExpense ? 'Adding...' : 'Add expense' }}
+                </button>
+              </div>
             </form>
 
             <div class="expense-lines" *ngIf="vehicle.expenses.length > 0">

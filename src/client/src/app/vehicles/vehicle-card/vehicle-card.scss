@@ -325,7 +325,7 @@ dd {
   display: grid;
   grid-template-columns: 140px 120px minmax(160px, 1fr) auto;
   gap: 10px;
-  align-items: end;
+  align-items: start;
 }
 
 .expense-form label {
@@ -334,11 +334,29 @@ dd {
   gap: 6px;
 }
 
-.expense-form span {
+.expense-form label span,
+.expense-submit span {
+  display: flex;
+  height: 17px;
+  align-items: end;
+  gap: 4px;
+}
+
+.expense-form label span {
   color: #657267;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.expense-form em {
+  font-style: normal;
+  text-transform: none;
+}
+
+.required-marker {
+  color: #b42318;
+  font-size: 0.72rem;
 }
 
 .expense-form input {
@@ -350,6 +368,28 @@ dd {
   color: #17211a;
   background: #fbfcf8;
   font: inherit;
+}
+
+.expense-form input::placeholder {
+  color: #9aa49a;
+}
+
+.expense-form input.invalid {
+  border-color: #e68077;
+  background: #fff8f7;
+}
+
+.field-error {
+  margin: -2px 0 0;
+  color: #b42318;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.expense-submit {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .expense-form button {

@@ -46,11 +46,24 @@ label {
 }
 
 label span {
-  display: block;
+  display: flex;
+  min-height: 34px;
+  align-items: end;
+  gap: 4px;
   color: #657267;
   font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+label em {
+  font-style: normal;
+  text-transform: none;
+}
+
+.required-marker {
+  color: #b42318;
+  font-size: 0.78rem;
 }
 
 input {
@@ -62,6 +75,22 @@ input {
   color: #17211a;
   background: #fbfcf8;
   font: inherit;
+}
+
+input::placeholder {
+  color: #9aa49a;
+}
+
+input.invalid {
+  border-color: #e68077;
+  background: #fff8f7;
+}
+
+.field-error {
+  margin: -2px 0 0;
+  color: #b42318;
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
 button {

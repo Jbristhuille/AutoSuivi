@@ -41,6 +41,7 @@ export class VehicleCardComponent {
   };
   protected vehicleExpanded = false;
   protected expensesExpanded = false;
+  protected expenseFormSubmitted = false;
 
   protected investmentCents() {
     return getVehicleInvestmentCents(this.vehicle);
@@ -68,10 +69,13 @@ export class VehicleCardComponent {
 
   protected toggleExpenses() {
     this.expensesExpanded = !this.expensesExpanded;
+    this.clearExpenseErrors();
   }
 
   protected submitExpense() {
-    if (!this.expenseForm.label.trim() || !this.expenseForm.amount || !this.expenseForm.spentAt) {
+    this.expenseFormSubmitted = true;
+
+    if (!this.isExpenseFormValid()) {
       return;
     }
 
@@ -90,6 +94,11 @@ export class VehicleCardComponent {
     this.expenseForm.label = '';
     this.expenseForm.amount = null;
     this.expenseForm.spentAt = this.getTodayInputDate();
+    this.expenseFormSubmitted = false;
+  }
+
+  protected clearExpenseErrors() {
+    this.expenseFormSubmitted = false;
   }
 
   protected requestExpenseDelete(expenseId: string) {
@@ -101,5 +110,45 @@ export class VehicleCardComponent {
 
   private getTodayInputDate() {
     return new Date().toISOString().slice(0, 10);
+  }
+
+  protected hasExpenseError(field: keyof ExpenseForm) {
+    if (!this.expenseFormSubmitted) {
+      return false;
+    }
+
+    if (field === 'label') {
+      return !this.expenseForm.label.trim();
+    }
+
+    if (field === 'amount') {
+      return !this.expenseForm.amount || Number(this.expenseForm.amount) <= 0;
+    }
+
+    if (field === 'spentAt') {
+      return !this.expenseForm.spentAt;
+    }
+
+    return false;
+  }
+
+  protected getExpenseError(field: keyof ExpenseForm) {
+    if (field === 'amount') {
+      return 'Price must be greater than zero.';
+    }
+
+    if (field === 'spentAt') {
+      return 'Date is required.';
+    }
+
+    return 'Label is required.';
+  }
+
+  private isExpenseFormValid() {
+    return (
+      !this.hasExpenseError('label') &&
+      !this.hasExpenseError('amount') &&
+      !this.hasExpenseError('spentAt')
+    );
   }
 }

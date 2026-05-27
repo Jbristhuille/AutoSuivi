@@ -20,6 +20,7 @@ export class VehicleFormComponent implements OnChanges {
   @Output() vehicleSubmitted = new EventEmitter<CreateVehiclePayload>();
 
   protected readonly form: VehicleFormModel = this.getEmptyForm();
+  protected submitted = false;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['vehicle']) {
@@ -32,7 +33,9 @@ export class VehicleFormComponent implements OnChanges {
   }
 
   protected submit() {
-    if (!this.form.brand.trim() || !this.form.model.trim()) {
+    this.submitted = true;
+
+    if (!this.isFormValid()) {
       return;
     }
 
@@ -58,9 +61,12 @@ export class VehicleFormComponent implements OnChanges {
 
   private resetForm() {
     Object.assign(this.form, this.getEmptyForm());
+    this.submitted = false;
   }
 
   private setFormFromVehicle(vehicle: Vehicle | null) {
+    this.submitted = false;
+
     if (!vehicle) {
       this.resetForm();
       return;
@@ -109,5 +115,49 @@ export class VehicleFormComponent implements OnChanges {
 
   private toInputDate(value: string | null | undefined) {
     return value ? value.slice(0, 10) : '';
+  }
+
+  protected hasError(field: keyof VehicleFormModel) {
+    if (!this.submitted) {
+      return false;
+    }
+
+    if (field === 'brand') {
+      return !this.form.brand.trim();
+    }
+
+    if (field === 'model') {
+      return !this.form.model.trim();
+    }
+
+    if (field === 'year' || field === 'mileage' || field === 'purchasePrice' || field === 'targetSalePrice') {
+      const value = this.form[field];
+      return value !== null && Number(value) < 0;
+    }
+
+    return false;
+  }
+
+  protected getFieldError(field: keyof VehicleFormModel) {
+    if (field === 'brand') {
+      return 'Brand is required.';
+    }
+
+    if (field === 'model') {
+      return 'Model is required.';
+    }
+
+    return 'Value must be zero or greater.';
+  }
+
+  private isFormValid() {
+    return (
+      !this.hasError('brand') &&
+      !this.hasError('model') &&
+      !this.hasError('year') &&
+      !this.hasError('mileage') &&
+      !this.hasError('purchasePrice') &&
+      !this.hasError('targetSalePrice')
+    );
   }
 }

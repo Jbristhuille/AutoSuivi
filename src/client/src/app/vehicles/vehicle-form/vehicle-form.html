@@ -1,4 +1,4 @@
-<form class="vehicle-form" (ngSubmit)="submit()">
+<form class="vehicle-form" (ngSubmit)="submit()" novalidate>
   <div class="form-head" *ngIf="showHeader">
     <h2>{{ vehicle ? 'Edit vehicle' : 'Add vehicle' }}</h2>
     <button *ngIf="vehicle" type="button" class="ghost" (click)="cancelEdit()">Cancel</button>
@@ -6,19 +6,35 @@
 
   <div class="field-row">
     <label>
-      <span>Brand</span>
-      <input name="brand" [(ngModel)]="form.brand" required autocomplete="off" />
+      <span>Brand <em class="required-marker">*</em></span>
+      <input
+        name="brand"
+        [(ngModel)]="form.brand"
+        [class.invalid]="hasError('brand')"
+        required
+        autocomplete="off"
+        placeholder="e.g. BMW"
+      />
+      <p class="field-error" *ngIf="hasError('brand')">{{ getFieldError('brand') }}</p>
     </label>
     <label>
-      <span>Model</span>
-      <input name="model" [(ngModel)]="form.model" required autocomplete="off" />
+      <span>Model <em class="required-marker">*</em></span>
+      <input
+        name="model"
+        [(ngModel)]="form.model"
+        [class.invalid]="hasError('model')"
+        required
+        autocomplete="off"
+        placeholder="e.g. E61"
+      />
+      <p class="field-error" *ngIf="hasError('model')">{{ getFieldError('model') }}</p>
     </label>
   </div>
 
   <div class="field-row">
     <label>
       <span>Plate</span>
-      <input name="plateNumber" [(ngModel)]="form.plateNumber" autocomplete="off" />
+      <input name="plateNumber" [(ngModel)]="form.plateNumber" autocomplete="off" placeholder="e.g. CM-125-NY" />
     </label>
     <label>
       <span>Purchase date</span>
@@ -29,22 +45,49 @@
   <div class="field-row">
     <label>
       <span>Year</span>
-      <input name="year" type="number" [(ngModel)]="form.year" />
+      <input name="year" type="number" min="0" [(ngModel)]="form.year" [class.invalid]="hasError('year')" placeholder="e.g. 2005" />
+      <p class="field-error" *ngIf="hasError('year')">{{ getFieldError('year') }}</p>
     </label>
     <label>
       <span>Mileage</span>
-      <input name="mileage" type="number" [(ngModel)]="form.mileage" />
+      <input
+        name="mileage"
+        type="number"
+        min="0"
+        [(ngModel)]="form.mileage"
+        [class.invalid]="hasError('mileage')"
+        placeholder="e.g. 30000"
+      />
+      <p class="field-error" *ngIf="hasError('mileage')">{{ getFieldError('mileage') }}</p>
     </label>
   </div>
 
   <div class="field-row">
     <label>
       <span>Purchase price</span>
-      <input name="purchasePrice" type="number" min="0" step="100" [(ngModel)]="form.purchasePrice" />
+      <input
+        name="purchasePrice"
+        type="number"
+        min="0"
+        step="100"
+        [(ngModel)]="form.purchasePrice"
+        [class.invalid]="hasError('purchasePrice')"
+        placeholder="e.g. 6500"
+      />
+      <p class="field-error" *ngIf="hasError('purchasePrice')">{{ getFieldError('purchasePrice') }}</p>
     </label>
     <label>
       <span>Target sale</span>
-      <input name="targetSalePrice" type="number" min="0" step="100" [(ngModel)]="form.targetSalePrice" />
+      <input
+        name="targetSalePrice"
+        type="number"
+        min="0"
+        step="100"
+        [(ngModel)]="form.targetSalePrice"
+        [class.invalid]="hasError('targetSalePrice')"
+        placeholder="e.g. 9500"
+      />
+      <p class="field-error" *ngIf="hasError('targetSalePrice')">{{ getFieldError('targetSalePrice') }}</p>
     </label>
   </div>
 
