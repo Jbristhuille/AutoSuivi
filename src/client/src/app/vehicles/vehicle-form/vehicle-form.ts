@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CreateVehiclePayload, VehicleForm as VehicleFormModel } from '../vehicle.model';
+import { CreateVehiclePayload, Vehicle, VehicleForm as VehicleFormModel } from '../vehicle.model';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -13,12 +13,18 @@ export class VehicleFormComponent implements OnChanges {
   @Input() saving = false;
   @Input() error = '';
   @Input() resetVersion = 0;
+  @Input() vehicle: Vehicle | null = null;
 
-  @Output() vehicleCreated = new EventEmitter<CreateVehiclePayload>();
+  @Output() cancelled = new EventEmitter<void>();
+  @Output() vehicleSubmitted = new EventEmitter<CreateVehiclePayload>();
 
   protected readonly form: VehicleFormModel = this.getEmptyForm();
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes['vehicle']) {
+      this.setFormFromVehicle(this.vehicle);
+    }
+
     if (changes['resetVersion'] && !changes['resetVersion'].firstChange) {
       this.resetForm();
     }
@@ -29,7 +35,11 @@ export class VehicleFormComponent implements OnChanges {
       return;
     }
 
-    this.vehicleCreated.emit(this.toPayload());
+    this.vehicleSubmitted.emit(this.toPayload());
+  }
+
+  protected cancelEdit() {
+    this.cancelled.emit();
   }
 
   private toPayload(): CreateVehiclePayload {
@@ -47,6 +57,27 @@ export class VehicleFormComponent implements OnChanges {
 
   private resetForm() {
     Object.assign(this.form, this.getEmptyForm());
+  }
+
+  private setFormFromVehicle(vehicle: Vehicle | null) {
+    if (!vehicle) {
+      this.resetForm();
+      return;
+    }
+
+    Object.assign(this.form, {
+      plateNumber: vehicle.plateNumber ?? '',
+      brand: vehicle.brand,
+      model: vehicle.model,
+      year: vehicle.year ?? null,
+      mileage: vehicle.mileage ?? null,
+      purchaseDate: this.toInputDate(vehicle.purchaseDate),
+      purchasePrice: vehicle.purchasePriceCents / 100,
+      targetSalePrice:
+        vehicle.targetSalePriceCents === null || vehicle.targetSalePriceCents === undefined
+          ? null
+          : vehicle.targetSalePriceCents / 100,
+    });
   }
 
   private getEmptyForm(): VehicleFormModel {
@@ -73,5 +104,9 @@ export class VehicleFormComponent implements OnChanges {
 
   private toCents(value: number | null) {
     return value === null ? null : Math.round(Number(value) * 100);
+  }
+
+  private toInputDate(value: string | null | undefined) {
+    return value ? value.slice(0, 10) : '';
   }
 }

@@ -16,4 +16,5 @@ export class VehicleListComponent {
 
   @Output() refresh = new EventEmitter<void>();
   @Output() deleteVehicle = new EventEmitter<string>();
+  @Output() editVehicle = new EventEmitter<Vehicle>();
 }

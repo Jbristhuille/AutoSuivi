@@ -16,6 +16,7 @@ export class VehicleCardComponent {
   @Input() deleting = false;
 
   @Output() deleteRequested = new EventEmitter<string>();
+  @Output() editRequested = new EventEmitter<Vehicle>();
 
   protected investmentCents() {
     return getVehicleInvestmentCents(this.vehicle);
@@ -27,5 +28,9 @@ export class VehicleCardComponent {
 
   protected requestDelete() {
     this.deleteRequested.emit(this.vehicle.id);
+  }
+
+  protected requestEdit() {
+    this.editRequested.emit(this.vehicle);
   }
 }

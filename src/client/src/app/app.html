@@ -17,7 +17,9 @@
       [saving]="saving()"
       [error]="error()"
       [resetVersion]="formResetVersion()"
-      (vehicleCreated)="createVehicle($event)"
+      [vehicle]="editingVehicle()"
+      (cancelled)="cancelEdit()"
+      (vehicleSubmitted)="saveVehicle($event)"
     />
 
     <app-vehicle-list
@@ -25,6 +27,7 @@
       [loading]="loading()"
       [deletingVehicleId]="deletingVehicleId()"
       (refresh)="loadVehicles()"
+      (editVehicle)="editVehicle($event)"
       (deleteVehicle)="deleteVehicle($event)"
     />
   </section>

@@ -1,5 +1,8 @@
 <form class="vehicle-form" (ngSubmit)="submit()">
-  <h2>Add vehicle</h2>
+  <div class="form-head">
+    <h2>{{ vehicle ? 'Edit vehicle' : 'Add vehicle' }}</h2>
+    <button *ngIf="vehicle" type="button" class="ghost" (click)="cancelEdit()">Cancel</button>
+  </div>
 
   <div class="field-row">
     <label>
@@ -48,6 +51,6 @@
   <p class="error" *ngIf="error">{{ error }}</p>
 
   <button type="submit" [disabled]="saving">
-    {{ saving ? 'Saving...' : 'Add vehicle' }}
+    {{ saving ? 'Saving...' : vehicle ? 'Save changes' : 'Add vehicle' }}
   </button>
 </form>

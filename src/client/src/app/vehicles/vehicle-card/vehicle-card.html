@@ -1,9 +1,12 @@
 <article class="vehicle-card">
   <header class="vehicle-identity">
     <h3>{{ vehicle.brand }} {{ vehicle.model }}</h3>
-    <button type="button" class="delete-button" (click)="requestDelete()" [disabled]="deleting">
-      {{ deleting ? 'Deleting...' : 'Delete' }}
-    </button>
+    <div class="vehicle-actions">
+      <button type="button" class="edit-button" (click)="requestEdit()" [disabled]="deleting">Edit</button>
+      <button type="button" class="delete-button" (click)="requestDelete()" [disabled]="deleting">
+        {{ deleting ? 'Deleting...' : 'Delete' }}
+      </button>
+    </div>
   </header>
 
   <dl class="vehicle-info">

@@ -12,5 +12,6 @@
     [vehicle]="vehicle"
     [deleting]="deletingVehicleId === vehicle.id"
     (deleteRequested)="deleteVehicle.emit($event)"
+    (editRequested)="editVehicle.emit($event)"
   />
 </section>

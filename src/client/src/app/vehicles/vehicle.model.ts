@@ -28,6 +28,8 @@ export type CreateVehiclePayload = {
   targetSalePriceCents: number | null;
 };
 
+export type UpdateVehiclePayload = CreateVehiclePayload;
+
 export type VehicleForm = {
   plateNumber: string;
   brand: string;

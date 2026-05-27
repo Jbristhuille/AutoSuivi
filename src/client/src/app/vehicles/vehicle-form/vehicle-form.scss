@@ -18,6 +18,13 @@ p {
   margin: 0;
 }
 
+.form-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
 h2 {
   font-size: 1.1rem;
 }
@@ -68,6 +75,12 @@ button {
 button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+.ghost {
+  border: 1px solid #cad3c4;
+  color: #17211a;
+  background: #ffffff;
 }
 
 .error {

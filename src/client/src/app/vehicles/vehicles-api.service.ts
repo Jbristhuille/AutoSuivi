@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { CreateVehiclePayload, Vehicle } from './vehicle.model';
+import { CreateVehiclePayload, UpdateVehiclePayload, Vehicle } from './vehicle.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +15,10 @@ export class VehiclesApiService {
 
   create(payload: CreateVehiclePayload) {
     return this.http.post<Vehicle>(`${this.apiUrl}/vehicles`, payload);
+  }
+
+  update(id: string, payload: UpdateVehiclePayload) {
+    return this.http.put<Vehicle>(`${this.apiUrl}/vehicles/${id}`, payload);
   }
 
   remove(id: string) {
