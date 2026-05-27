@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LocalDatePipe } from '../../shared/local-date.pipe';
 import { MoneyPipe } from '../../shared/money.pipe';
 import { getVehicleInvestmentCents, getVehicleMarginCents } from '../vehicle-calculations';
@@ -13,6 +13,9 @@ import { Vehicle } from '../vehicle.model';
 })
 export class VehicleCardComponent {
   @Input({ required: true }) vehicle!: Vehicle;
+  @Input() deleting = false;
+
+  @Output() deleteRequested = new EventEmitter<string>();
 
   protected investmentCents() {
     return getVehicleInvestmentCents(this.vehicle);
@@ -20,5 +23,9 @@ export class VehicleCardComponent {
 
   protected marginCents() {
     return getVehicleMarginCents(this.vehicle);
+  }
+
+  protected requestDelete() {
+    this.deleteRequested.emit(this.vehicle.id);
   }
 }

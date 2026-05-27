@@ -7,5 +7,10 @@
   <p class="empty" *ngIf="loading">Loading vehicles...</p>
   <p class="empty" *ngIf="!loading && vehicles.length === 0">No vehicles yet.</p>
 
-  <app-vehicle-card *ngFor="let vehicle of vehicles" [vehicle]="vehicle" />
+  <app-vehicle-card
+    *ngFor="let vehicle of vehicles"
+    [vehicle]="vehicle"
+    [deleting]="deletingVehicleId === vehicle.id"
+    (deleteRequested)="deleteVehicle.emit($event)"
+  />
 </section>

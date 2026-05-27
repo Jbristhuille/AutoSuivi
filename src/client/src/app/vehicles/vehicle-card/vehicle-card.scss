@@ -13,6 +13,10 @@
 }
 
 .vehicle-identity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   padding-bottom: 12px;
   border-bottom: 1px solid #e3e8de;
 }
@@ -20,6 +24,24 @@
 h3 {
   margin: 0;
   font-size: 1.1rem;
+}
+
+.delete-button {
+  min-height: 34px;
+  border: 1px solid #f0b4ad;
+  border-radius: 6px;
+  padding: 0 12px;
+  color: #b42318;
+  background: #fff8f7;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.delete-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .vehicle-info,

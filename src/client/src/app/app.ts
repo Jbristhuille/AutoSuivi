@@ -24,6 +24,7 @@ export class App {
   protected readonly saving = signal(false);
   protected readonly error = signal('');
   protected readonly formResetVersion = signal(0);
+  protected readonly deletingVehicleId = signal<string | null>(null);
 
   protected readonly totalInvestmentCents = computed(() => getPortfolioInvestmentCents(this.vehicles()));
   protected readonly totalTargetMarginCents = computed(() =>
@@ -68,6 +69,29 @@ export class App {
       error: () => {
         this.error.set('Unable to save this vehicle.');
         this.saving.set(false);
+      },
+    });
+  }
+
+  protected deleteVehicle(id: string) {
+    const vehicle = this.vehicles().find((item) => item.id === id);
+    const label = vehicle ? `${vehicle.brand} ${vehicle.model}` : 'this vehicle';
+
+    if (!confirm(`Delete ${label}?`)) {
+      return;
+    }
+
+    this.deletingVehicleId.set(id);
+    this.error.set('');
+
+    this.vehiclesApi.remove(id).subscribe({
+      next: () => {
+        this.vehicles.update((vehicles) => vehicles.filter((item) => item.id !== id));
+        this.deletingVehicleId.set(null);
+      },
+      error: () => {
+        this.error.set('Unable to delete this vehicle.');
+        this.deletingVehicleId.set(null);
       },
     });
   }

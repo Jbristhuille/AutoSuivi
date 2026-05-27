@@ -1,5 +1,5 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import type { Prisma } from '@prisma/client';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
 import type { CreateVehicleDto } from './dto/create-vehicle.dto';
 
@@ -43,6 +43,26 @@ export class VehiclesService {
         expenses: true,
       },
     });
+  }
+
+  async remove(id: string) {
+    try {
+      await this.prisma.vehicle.delete({
+        where: {
+          id,
+        },
+      });
+
+      return {
+        id,
+      };
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+        throw new NotFoundException('Vehicle not found.');
+      }
+
+      throw error;
+    }
   }
 
   private optionalText(value: string | null | undefined) {

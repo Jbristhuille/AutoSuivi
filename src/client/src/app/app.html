@@ -23,7 +23,9 @@
     <app-vehicle-list
       [vehicles]="vehicles()"
       [loading]="loading()"
+      [deletingVehicleId]="deletingVehicleId()"
       (refresh)="loadVehicles()"
+      (deleteVehicle)="deleteVehicle($event)"
     />
   </section>
 </main>
