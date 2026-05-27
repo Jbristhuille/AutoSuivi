@@ -89,6 +89,23 @@ export class VehiclesService {
     return this.findById(id);
   }
 
+  async removeExpense(id: string, expenseId: string) {
+    await this.ensureVehicleExists(id);
+
+    const result = await this.prisma.expense.deleteMany({
+      where: {
+        id: expenseId,
+        vehicleId: id,
+      },
+    });
+
+    if (result.count === 0) {
+      throw new NotFoundException('Expense not found.');
+    }
+
+    return this.findById(id);
+  }
+
   private readonly vehicleInclude = {
     expenses: {
       orderBy: {

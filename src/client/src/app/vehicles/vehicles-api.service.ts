@@ -25,6 +25,10 @@ export class VehiclesApiService {
     return this.http.post<Vehicle>(`${this.apiUrl}/vehicles/${vehicleId}/expenses`, payload);
   }
 
+  removeExpense(vehicleId: string, expenseId: string) {
+    return this.http.delete<Vehicle>(`${this.apiUrl}/vehicles/${vehicleId}/expenses/${expenseId}`);
+  }
+
   remove(id: string) {
     return this.http.delete<{ id: string }>(`${this.apiUrl}/vehicles/${id}`);
   }

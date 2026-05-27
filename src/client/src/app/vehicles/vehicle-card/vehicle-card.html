@@ -87,6 +87,9 @@
         <span>{{ expense.spentAt | localDate }}</span>
         <strong>{{ expense.amountCents | money }}</strong>
         <p>{{ expense.label }}</p>
+        <button type="button" (click)="requestExpenseDelete(expense.id)" [disabled]="deletingExpenseId === expense.id">
+          {{ deletingExpenseId === expense.id ? 'Deleting...' : 'Delete' }}
+        </button>
       </div>
     </div>
   </section>

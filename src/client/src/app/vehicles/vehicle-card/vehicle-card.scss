@@ -185,7 +185,7 @@ h4 {
 
 .expense-line {
   display: grid;
-  grid-template-columns: 110px 100px minmax(0, 1fr);
+  grid-template-columns: 110px 100px minmax(0, 1fr) auto;
   gap: 12px;
   align-items: baseline;
   color: #17211a;
@@ -204,6 +204,24 @@ h4 {
   min-width: 0;
   margin: 0;
   overflow-wrap: anywhere;
+}
+
+.expense-line button {
+  min-height: 30px;
+  border: 1px solid #f0b4ad;
+  border-radius: 6px;
+  padding: 0 10px;
+  color: #b42318;
+  background: #fff8f7;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.expense-line button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 @media (max-width: 900px) {

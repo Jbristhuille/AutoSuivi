@@ -14,12 +14,17 @@ export class VehicleListComponent {
   @Input() loading = false;
   @Input() deletingVehicleId: string | null = null;
   @Input() addingExpenseVehicleId: string | null = null;
+  @Input() deletingExpenseId: string | null = null;
 
   @Output() refresh = new EventEmitter<void>();
   @Output() deleteVehicle = new EventEmitter<string>();
   @Output() editVehicle = new EventEmitter<Vehicle>();
   @Output() addExpense = new EventEmitter<{
     payload: CreateExpensePayload;
+    vehicleId: string;
+  }>();
+  @Output() deleteExpense = new EventEmitter<{
+    expenseId: string;
     vehicleId: string;
   }>();
 }

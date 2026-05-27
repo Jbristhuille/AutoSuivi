@@ -12,8 +12,10 @@
     [vehicle]="vehicle"
     [deleting]="deletingVehicleId === vehicle.id"
     [addingExpense]="addingExpenseVehicleId === vehicle.id"
+    [deletingExpenseId]="deletingExpenseId"
     (deleteRequested)="deleteVehicle.emit($event)"
     (editRequested)="editVehicle.emit($event)"
     (expenseSubmitted)="addExpense.emit($event)"
+    (expenseDeleteRequested)="deleteExpense.emit($event)"
   />
 </section>

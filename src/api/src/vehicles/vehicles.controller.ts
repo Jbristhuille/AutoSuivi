@@ -28,6 +28,11 @@ export class VehiclesController {
     return this.vehiclesService.addExpense(id, createExpenseDto);
   }
 
+  @Delete(':id/expenses/:expenseId')
+  removeExpense(@Param('id') id: string, @Param('expenseId') expenseId: string) {
+    return this.vehiclesService.removeExpense(id, expenseId);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.vehiclesService.remove(id);

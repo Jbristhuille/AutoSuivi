@@ -20,11 +20,16 @@ export class VehicleCardComponent {
   @Input({ required: true }) vehicle!: Vehicle;
   @Input() deleting = false;
   @Input() addingExpense = false;
+  @Input() deletingExpenseId: string | null = null;
 
   @Output() deleteRequested = new EventEmitter<string>();
   @Output() editRequested = new EventEmitter<Vehicle>();
   @Output() expenseSubmitted = new EventEmitter<{
     payload: CreateExpensePayload;
+    vehicleId: string;
+  }>();
+  @Output() expenseDeleteRequested = new EventEmitter<{
+    expenseId: string;
     vehicleId: string;
   }>();
 
@@ -74,6 +79,13 @@ export class VehicleCardComponent {
     this.expenseForm.label = '';
     this.expenseForm.amount = null;
     this.expenseForm.spentAt = this.getTodayInputDate();
+  }
+
+  protected requestExpenseDelete(expenseId: string) {
+    this.expenseDeleteRequested.emit({
+      expenseId,
+      vehicleId: this.vehicle.id,
+    });
   }
 
   private getTodayInputDate() {

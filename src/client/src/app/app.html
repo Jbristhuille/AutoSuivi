@@ -27,10 +27,12 @@
       [loading]="loading()"
       [deletingVehicleId]="deletingVehicleId()"
       [addingExpenseVehicleId]="addingExpenseVehicleId()"
+      [deletingExpenseId]="deletingExpenseId()"
       (refresh)="loadVehicles()"
       (editVehicle)="editVehicle($event)"
       (deleteVehicle)="deleteVehicle($event)"
       (addExpense)="addExpense($event)"
+      (deleteExpense)="deleteExpense($event)"
     />
   </section>
 </main>

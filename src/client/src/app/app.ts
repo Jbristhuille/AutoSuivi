@@ -27,6 +27,7 @@ export class App {
   protected readonly deletingVehicleId = signal<string | null>(null);
   protected readonly editingVehicle = signal<Vehicle | null>(null);
   protected readonly addingExpenseVehicleId = signal<string | null>(null);
+  protected readonly deletingExpenseId = signal<string | null>(null);
 
   protected readonly totalInvestmentCents = computed(() => getPortfolioInvestmentCents(this.vehicles()));
   protected readonly totalTargetMarginCents = computed(() =>
@@ -158,6 +159,28 @@ export class App {
       error: () => {
         this.error.set('Unable to add this expense.');
         this.addingExpenseVehicleId.set(null);
+      },
+    });
+  }
+
+  protected deleteExpense(event: { expenseId: string; vehicleId: string }) {
+    if (!confirm('Delete this expense?')) {
+      return;
+    }
+
+    this.deletingExpenseId.set(event.expenseId);
+    this.error.set('');
+
+    this.vehiclesApi.removeExpense(event.vehicleId, event.expenseId).subscribe({
+      next: (updatedVehicle) => {
+        this.vehicles.update((vehicles) =>
+          vehicles.map((vehicle) => (vehicle.id === event.vehicleId ? updatedVehicle : vehicle)),
+        );
+        this.deletingExpenseId.set(null);
+      },
+      error: () => {
+        this.error.set('Unable to delete this expense.');
+        this.deletingExpenseId.set(null);
       },
     });
   }
