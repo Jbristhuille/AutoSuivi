@@ -1,0 +1,16 @@
+<div class="metrics" aria-label="Portfolio summary">
+  <div>
+    <span>Vehicles</span>
+    <strong>{{ vehicleCount }}</strong>
+  </div>
+  <div>
+    <span>Investment</span>
+    <strong>{{ totalInvestmentCents | money }}</strong>
+  </div>
+  <div>
+    <span>Target margin</span>
+    <strong [class.negative]="totalTargetMarginCents < 0">
+      {{ totalTargetMarginCents | money }}
+    </strong>
+  </div>
+</div>

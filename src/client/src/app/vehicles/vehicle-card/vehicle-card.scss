@@ -1,0 +1,80 @@
+:host {
+  display: block;
+}
+
+.vehicle-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid #dce2d6;
+  border-radius: 8px;
+  padding: 18px;
+  background: #ffffff;
+}
+
+.vehicle-identity {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e3e8de;
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.vehicle-info,
+.vehicle-financials {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 24px;
+  margin: 0;
+}
+
+.vehicle-financials {
+  padding-top: 14px;
+  border-top: 1px solid #e3e8de;
+}
+
+.vehicle-info div {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 12px;
+}
+
+dt {
+  display: block;
+  color: #657267;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #17211a;
+  font-weight: 500;
+}
+
+.negative {
+  color: #b42318;
+}
+
+@media (max-width: 900px) {
+  .vehicle-info,
+  .vehicle-financials {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .vehicle-info div {
+    display: block;
+  }
+
+  .vehicle-info dd {
+    margin-top: 4px;
+  }
+}

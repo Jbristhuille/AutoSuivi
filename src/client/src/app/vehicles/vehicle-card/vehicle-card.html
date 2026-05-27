@@ -1,0 +1,39 @@
+<article class="vehicle-card">
+  <header class="vehicle-identity">
+    <h3>{{ vehicle.brand }} {{ vehicle.model }}</h3>
+  </header>
+
+  <dl class="vehicle-info">
+    <div *ngIf="vehicle.plateNumber">
+      <dt>Plate</dt>
+      <dd>{{ vehicle.plateNumber }}</dd>
+    </div>
+    <div *ngIf="vehicle.purchaseDate">
+      <dt>Purchased</dt>
+      <dd>{{ vehicle.purchaseDate | localDate }}</dd>
+    </div>
+    <div *ngIf="vehicle.year">
+      <dt>Year</dt>
+      <dd>{{ vehicle.year }}</dd>
+    </div>
+    <div *ngIf="vehicle.mileage">
+      <dt>Mileage</dt>
+      <dd>{{ vehicle.mileage | number }} km</dd>
+    </div>
+  </dl>
+
+  <dl class="vehicle-info vehicle-financials">
+    <div>
+      <dt>Investment</dt>
+      <dd>{{ investmentCents() | money }}</dd>
+    </div>
+    <div>
+      <dt>Target sale</dt>
+      <dd>{{ (vehicle.targetSalePriceCents ?? 0) | money }}</dd>
+    </div>
+    <div>
+      <dt>Margin</dt>
+      <dd [class.negative]="marginCents() < 0">{{ marginCents() | money }}</dd>
+    </div>
+  </dl>
+</article>

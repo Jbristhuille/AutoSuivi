@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.metrics div {
+  border: 1px solid #dce2d6;
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: #ffffff;
+}
+
+.metrics span {
+  display: block;
+  color: #657267;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.metrics strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.25rem;
+}
+
+.negative {
+  color: #b42318;
+}
+
+@media (max-width: 900px) {
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+}

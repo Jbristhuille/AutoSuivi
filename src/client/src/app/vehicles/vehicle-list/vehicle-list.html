@@ -1,0 +1,11 @@
+<section class="vehicle-list" aria-label="Vehicles">
+  <div class="list-head">
+    <h2>Vehicles</h2>
+    <button type="button" class="ghost" (click)="refresh.emit()" [disabled]="loading">Refresh</button>
+  </div>
+
+  <p class="empty" *ngIf="loading">Loading vehicles...</p>
+  <p class="empty" *ngIf="!loading && vehicles.length === 0">No vehicles yet.</p>
+
+  <app-vehicle-card *ngFor="let vehicle of vehicles" [vehicle]="vehicle" />
+</section>

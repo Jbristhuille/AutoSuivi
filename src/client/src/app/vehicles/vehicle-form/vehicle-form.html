@@ -1,0 +1,53 @@
+<form class="vehicle-form" (ngSubmit)="submit()">
+  <h2>Add vehicle</h2>
+
+  <div class="field-row">
+    <label>
+      <span>Brand</span>
+      <input name="brand" [(ngModel)]="form.brand" required autocomplete="off" />
+    </label>
+    <label>
+      <span>Model</span>
+      <input name="model" [(ngModel)]="form.model" required autocomplete="off" />
+    </label>
+  </div>
+
+  <div class="field-row">
+    <label>
+      <span>Plate</span>
+      <input name="plateNumber" [(ngModel)]="form.plateNumber" autocomplete="off" />
+    </label>
+    <label>
+      <span>Purchase date</span>
+      <input name="purchaseDate" type="date" [(ngModel)]="form.purchaseDate" />
+    </label>
+  </div>
+
+  <div class="field-row">
+    <label>
+      <span>Year</span>
+      <input name="year" type="number" [(ngModel)]="form.year" />
+    </label>
+    <label>
+      <span>Mileage</span>
+      <input name="mileage" type="number" [(ngModel)]="form.mileage" />
+    </label>
+  </div>
+
+  <div class="field-row">
+    <label>
+      <span>Purchase price</span>
+      <input name="purchasePrice" type="number" min="0" step="100" [(ngModel)]="form.purchasePrice" />
+    </label>
+    <label>
+      <span>Target sale</span>
+      <input name="targetSalePrice" type="number" min="0" step="100" [(ngModel)]="form.targetSalePrice" />
+    </label>
+  </div>
+
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+  <button type="submit" [disabled]="saving">
+    {{ saving ? 'Saving...' : 'Add vehicle' }}
+  </button>
+</form>
