@@ -5,7 +5,6 @@
 .vehicle-card {
   display: flex;
   flex-direction: column;
-  gap: 16px;
   border: 1px solid #dce2d6;
   border-radius: 8px;
   padding: 18px;
@@ -161,6 +160,59 @@
   opacity: 0.6;
 }
 
+.vehicle-details,
+.expense-details {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin-top: 0;
+  opacity: 0;
+  transition:
+    grid-template-rows 240ms ease,
+    margin-top 240ms ease,
+    opacity 180ms ease;
+}
+
+.vehicle-details.expanded,
+.expense-details.expanded {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.vehicle-details.expanded {
+  margin-top: 16px;
+}
+
+.expense-details.expanded {
+  margin-top: 12px;
+}
+
+.vehicle-details-inner,
+.expense-details-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.vehicle-details-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transform: translateY(-6px);
+  transition: transform 240ms ease;
+}
+
+.expense-details-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform: translateY(-4px);
+  transition: transform 220ms ease;
+}
+
+.vehicle-details.expanded .vehicle-details-inner,
+.expense-details.expanded .expense-details-inner {
+  transform: translateY(0);
+}
+
 .vehicle-info,
 .vehicle-financials {
   display: grid;
@@ -204,7 +256,6 @@ dd {
 .expenses {
   display: flex;
   flex-direction: column;
-  gap: 12px;
   padding-top: 14px;
   border-top: 1px solid #e3e8de;
 }
@@ -430,6 +481,10 @@ dd {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .vehicle-details,
+  .expense-details,
+  .vehicle-details-inner,
+  .expense-details-inner,
   .vehicle-summary,
   .section-head,
   .icon-button,

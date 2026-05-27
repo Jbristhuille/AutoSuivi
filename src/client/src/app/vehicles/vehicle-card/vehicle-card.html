@@ -29,99 +29,103 @@
     </div>
   </header>
 
-  <ng-container *ngIf="vehicleExpanded">
-    <dl class="vehicle-info">
-      <div *ngIf="vehicle.plateNumber">
-        <dt>Plate</dt>
-        <dd>{{ vehicle.plateNumber }}</dd>
-      </div>
-      <div *ngIf="vehicle.purchaseDate">
-        <dt>Purchased</dt>
-        <dd>{{ vehicle.purchaseDate | localDate }}</dd>
-      </div>
-      <div *ngIf="vehicle.year">
-        <dt>Year</dt>
-        <dd>{{ vehicle.year }}</dd>
-      </div>
-      <div *ngIf="vehicle.mileage">
-        <dt>Mileage</dt>
-        <dd>{{ vehicle.mileage | number }} km</dd>
-      </div>
-    </dl>
+  <div class="vehicle-details" [class.expanded]="vehicleExpanded" [attr.aria-hidden]="!vehicleExpanded">
+    <div class="vehicle-details-inner" [attr.inert]="!vehicleExpanded ? '' : null">
+      <dl class="vehicle-info">
+        <div *ngIf="vehicle.plateNumber">
+          <dt>Plate</dt>
+          <dd>{{ vehicle.plateNumber }}</dd>
+        </div>
+        <div *ngIf="vehicle.purchaseDate">
+          <dt>Purchased</dt>
+          <dd>{{ vehicle.purchaseDate | localDate }}</dd>
+        </div>
+        <div *ngIf="vehicle.year">
+          <dt>Year</dt>
+          <dd>{{ vehicle.year }}</dd>
+        </div>
+        <div *ngIf="vehicle.mileage">
+          <dt>Mileage</dt>
+          <dd>{{ vehicle.mileage | number }} km</dd>
+        </div>
+      </dl>
 
-    <dl class="vehicle-info vehicle-financials">
-      <div>
-        <dt>Purchase price</dt>
-        <dd>{{ vehicle.purchasePriceCents | money }}</dd>
-      </div>
-      <div>
-        <dt>Expenses</dt>
-        <dd>{{ expensesTotalCents() | money }}</dd>
-      </div>
-      <div>
-        <dt>Investment</dt>
-        <dd>{{ investmentCents() | money }}</dd>
-      </div>
-      <div>
-        <dt>Target sale</dt>
-        <dd>{{ (vehicle.targetSalePriceCents ?? 0) | money }}</dd>
-      </div>
-      <div>
-        <dt>Margin</dt>
-        <dd [class.negative]="marginCents() < 0">{{ marginCents() | money }}</dd>
-      </div>
-    </dl>
+      <dl class="vehicle-info vehicle-financials">
+        <div>
+          <dt>Purchase price</dt>
+          <dd>{{ vehicle.purchasePriceCents | money }}</dd>
+        </div>
+        <div>
+          <dt>Expenses</dt>
+          <dd>{{ expensesTotalCents() | money }}</dd>
+        </div>
+        <div>
+          <dt>Investment</dt>
+          <dd>{{ investmentCents() | money }}</dd>
+        </div>
+        <div>
+          <dt>Target sale</dt>
+          <dd>{{ (vehicle.targetSalePriceCents ?? 0) | money }}</dd>
+        </div>
+        <div>
+          <dt>Margin</dt>
+          <dd [class.negative]="marginCents() < 0">{{ marginCents() | money }}</dd>
+        </div>
+      </dl>
 
-    <section class="expenses">
-      <button type="button" class="section-head" (click)="toggleExpenses()" [attr.aria-expanded]="expensesExpanded">
-        <span class="section-title">Expenses</span>
-        <span class="expense-count">{{ vehicle.expenses.length }}</span>
-      </button>
+      <section class="expenses">
+        <button type="button" class="section-head" (click)="toggleExpenses()" [attr.aria-expanded]="expensesExpanded">
+          <span class="section-title">Expenses</span>
+          <span class="expense-count">{{ vehicle.expenses.length }}</span>
+        </button>
 
-      <ng-container *ngIf="expensesExpanded">
-        <form class="expense-form" (ngSubmit)="submitExpense()">
-          <label>
-            <span>Date</span>
-            <input name="spentAt-{{ vehicle.id }}" type="date" [(ngModel)]="expenseForm.spentAt" required />
-          </label>
-          <label>
-            <span>Price</span>
-            <input
-              name="amount-{{ vehicle.id }}"
-              type="number"
-              min="0"
-              step="10"
-              [(ngModel)]="expenseForm.amount"
-              required
-            />
-          </label>
-          <label class="expense-label">
-            <span>Label</span>
-            <input name="label-{{ vehicle.id }}" [(ngModel)]="expenseForm.label" required autocomplete="off" />
-          </label>
-          <button type="submit" [disabled]="addingExpense">
-            {{ addingExpense ? 'Adding...' : 'Add expense' }}
-          </button>
-        </form>
+        <div class="expense-details" [class.expanded]="expensesExpanded" [attr.aria-hidden]="!expensesExpanded">
+          <div class="expense-details-inner" [attr.inert]="!expensesExpanded ? '' : null">
+            <form class="expense-form" (ngSubmit)="submitExpense()">
+              <label>
+                <span>Date</span>
+                <input name="spentAt-{{ vehicle.id }}" type="date" [(ngModel)]="expenseForm.spentAt" required />
+              </label>
+              <label>
+                <span>Price</span>
+                <input
+                  name="amount-{{ vehicle.id }}"
+                  type="number"
+                  min="0"
+                  step="10"
+                  [(ngModel)]="expenseForm.amount"
+                  required
+                />
+              </label>
+              <label class="expense-label">
+                <span>Label</span>
+                <input name="label-{{ vehicle.id }}" [(ngModel)]="expenseForm.label" required autocomplete="off" />
+              </label>
+              <button type="submit" [disabled]="addingExpense">
+                {{ addingExpense ? 'Adding...' : 'Add expense' }}
+              </button>
+            </form>
 
-        <div class="expense-lines" *ngIf="vehicle.expenses.length > 0">
-          <div class="expense-line" *ngFor="let expense of vehicle.expenses">
-            <span>{{ expense.spentAt | localDate }}</span>
-            <strong>{{ expense.amountCents | money }}</strong>
-            <p>{{ expense.label }}</p>
-            <button
-              type="button"
-              class="icon-button expense-delete-button"
-              (click)="requestExpenseDelete(expense.id)"
-              [disabled]="deletingExpenseId === expense.id"
-              [attr.aria-label]="deletingExpenseId === expense.id ? 'Deleting expense' : 'Delete expense'"
-              [attr.title]="deletingExpenseId === expense.id ? 'Deleting expense' : 'Delete expense'"
-            >
-              <app-icon name="trash" />
-            </button>
+            <div class="expense-lines" *ngIf="vehicle.expenses.length > 0">
+              <div class="expense-line" *ngFor="let expense of vehicle.expenses">
+                <span>{{ expense.spentAt | localDate }}</span>
+                <strong>{{ expense.amountCents | money }}</strong>
+                <p>{{ expense.label }}</p>
+                <button
+                  type="button"
+                  class="icon-button expense-delete-button"
+                  (click)="requestExpenseDelete(expense.id)"
+                  [disabled]="deletingExpenseId === expense.id"
+                  [attr.aria-label]="deletingExpenseId === expense.id ? 'Deleting expense' : 'Delete expense'"
+                  [attr.title]="deletingExpenseId === expense.id ? 'Deleting expense' : 'Delete expense'"
+                >
+                  <app-icon name="trash" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </ng-container>
-    </section>
-  </ng-container>
+      </section>
+    </div>
+  </div>
 </article>
