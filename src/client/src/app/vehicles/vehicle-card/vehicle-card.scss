@@ -112,18 +112,50 @@ dd {
 
 .section-head {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
-h4 {
-  margin: 0;
+.section-head::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 6px solid #657267;
+  transition: transform 160ms ease;
+}
+
+.section-head[aria-expanded='true']::before {
+  transform: rotate(90deg);
+}
+
+.section-title {
+  flex: 1;
   font-size: 0.95rem;
+  font-weight: 700;
 }
 
-.section-head span {
+.expense-count {
+  display: inline-flex;
+  min-width: 28px;
+  min-height: 24px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dce2d6;
+  border-radius: 999px;
+  padding: 0 8px;
   color: #657267;
+  background: #fbfcf8;
   font-size: 0.82rem;
   font-weight: 700;
 }

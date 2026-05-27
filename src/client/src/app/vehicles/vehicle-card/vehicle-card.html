@@ -52,45 +52,47 @@
   </dl>
 
   <section class="expenses">
-    <div class="section-head">
-      <h4>Expenses</h4>
-      <span>{{ vehicle.expenses.length }}</span>
-    </div>
+    <button type="button" class="section-head" (click)="toggleExpenses()" [attr.aria-expanded]="expensesExpanded">
+      <span class="section-title">Expenses</span>
+      <span class="expense-count">{{ vehicle.expenses.length }}</span>
+    </button>
 
-    <form class="expense-form" (ngSubmit)="submitExpense()">
-      <label>
-        <span>Date</span>
-        <input name="spentAt-{{ vehicle.id }}" type="date" [(ngModel)]="expenseForm.spentAt" required />
-      </label>
-      <label>
-        <span>Price</span>
-        <input
-          name="amount-{{ vehicle.id }}"
-          type="number"
-          min="0"
-          step="10"
-          [(ngModel)]="expenseForm.amount"
-          required
-        />
-      </label>
-      <label class="expense-label">
-        <span>Label</span>
-        <input name="label-{{ vehicle.id }}" [(ngModel)]="expenseForm.label" required autocomplete="off" />
-      </label>
-      <button type="submit" [disabled]="addingExpense">
-        {{ addingExpense ? 'Adding...' : 'Add expense' }}
-      </button>
-    </form>
-
-    <div class="expense-lines" *ngIf="vehicle.expenses.length > 0">
-      <div class="expense-line" *ngFor="let expense of vehicle.expenses">
-        <span>{{ expense.spentAt | localDate }}</span>
-        <strong>{{ expense.amountCents | money }}</strong>
-        <p>{{ expense.label }}</p>
-        <button type="button" (click)="requestExpenseDelete(expense.id)" [disabled]="deletingExpenseId === expense.id">
-          {{ deletingExpenseId === expense.id ? 'Deleting...' : 'Delete' }}
+    <ng-container *ngIf="expensesExpanded">
+      <form class="expense-form" (ngSubmit)="submitExpense()">
+        <label>
+          <span>Date</span>
+          <input name="spentAt-{{ vehicle.id }}" type="date" [(ngModel)]="expenseForm.spentAt" required />
+        </label>
+        <label>
+          <span>Price</span>
+          <input
+            name="amount-{{ vehicle.id }}"
+            type="number"
+            min="0"
+            step="10"
+            [(ngModel)]="expenseForm.amount"
+            required
+          />
+        </label>
+        <label class="expense-label">
+          <span>Label</span>
+          <input name="label-{{ vehicle.id }}" [(ngModel)]="expenseForm.label" required autocomplete="off" />
+        </label>
+        <button type="submit" [disabled]="addingExpense">
+          {{ addingExpense ? 'Adding...' : 'Add expense' }}
         </button>
+      </form>
+
+      <div class="expense-lines" *ngIf="vehicle.expenses.length > 0">
+        <div class="expense-line" *ngFor="let expense of vehicle.expenses">
+          <span>{{ expense.spentAt | localDate }}</span>
+          <strong>{{ expense.amountCents | money }}</strong>
+          <p>{{ expense.label }}</p>
+          <button type="button" (click)="requestExpenseDelete(expense.id)" [disabled]="deletingExpenseId === expense.id">
+            {{ deletingExpenseId === expense.id ? 'Deleting...' : 'Delete' }}
+          </button>
+        </div>
       </div>
-    </div>
+    </ng-container>
   </section>
 </article>

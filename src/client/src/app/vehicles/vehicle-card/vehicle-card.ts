@@ -38,6 +38,7 @@ export class VehicleCardComponent {
     amount: null,
     spentAt: this.getTodayInputDate(),
   };
+  protected expensesExpanded = false;
 
   protected investmentCents() {
     return getVehicleInvestmentCents(this.vehicle);
@@ -57,6 +58,10 @@ export class VehicleCardComponent {
 
   protected requestEdit() {
     this.editRequested.emit(this.vehicle);
+  }
+
+  protected toggleExpenses() {
+    this.expensesExpanded = !this.expensesExpanded;
   }
 
   protected submitExpense() {

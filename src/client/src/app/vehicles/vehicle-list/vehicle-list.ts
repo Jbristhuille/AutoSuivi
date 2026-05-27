@@ -27,4 +27,8 @@ export class VehicleListComponent {
     expenseId: string;
     vehicleId: string;
   }>();
+
+  protected trackByVehicleId(_index: number, vehicle: Vehicle) {
+    return vehicle.id;
+  }
 }
