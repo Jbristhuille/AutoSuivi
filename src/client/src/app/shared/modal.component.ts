@@ -1,15 +1,23 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IconComponent } from './icon.component';
+import { PopoverDirective } from './popover.directive';
 
 @Component({
   selector: 'app-modal',
-  imports: [IconComponent],
+  imports: [IconComponent, PopoverDirective],
   template: `
     <section class="modal-backdrop" (click)="close()">
       <div class="modal-panel" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
         <div class="modal-head">
           <h2>{{ title }}</h2>
-          <button type="button" class="modal-close" aria-label="Close modal" title="Close modal" (click)="close()">
+          <button
+            type="button"
+            class="modal-close"
+            aria-label="Close modal"
+            title="Close modal"
+            data-popover="Close this dialog"
+            (click)="close()"
+          >
             <app-icon name="x" />
           </button>
         </div>

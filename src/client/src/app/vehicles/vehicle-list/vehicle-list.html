@@ -2,7 +2,7 @@
   <div class="list-head">
     <h2>Vehicles</h2>
     <div class="list-actions">
-      <button type="button" class="primary" (click)="createVehicle.emit()">Add vehicle</button>
+      <button type="button" class="primary" data-popover="Create a new vehicle record" (click)="createVehicle.emit()">Add vehicle</button>
       <button
         type="button"
         class="icon-button ghost"
@@ -10,6 +10,7 @@
         [disabled]="loading"
         aria-label="Refresh vehicles"
         title="Refresh vehicles"
+        data-popover="Refresh the vehicle list"
       >
         <app-icon name="refresh" />
       </button>

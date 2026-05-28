@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PopoverDirective } from '../../shared/popover.directive';
 import { CreateVehiclePayload, Vehicle, VehicleForm as VehicleFormModel } from '../vehicle.model';
 
 @Component({
   selector: 'app-vehicle-form',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PopoverDirective],
   templateUrl: './vehicle-form.html',
   styleUrl: './vehicle-form.scss',
 })

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IconComponent, IconName } from './icon.component';
+import { PopoverDirective } from './popover.directive';
 
 export type ToastVariant = 'success' | 'error' | 'info';
 
@@ -13,7 +14,7 @@ export type Toast = {
 
 @Component({
   selector: 'app-toast-list',
-  imports: [CommonModule, IconComponent],
+  imports: [CommonModule, IconComponent, PopoverDirective],
   template: `
     <section class="toast-list" aria-live="polite" aria-label="Notifications">
       <article class="toast" *ngFor="let toast of toasts" [ngClass]="[toast.variant, toast.leaving ? 'leaving' : '']">
@@ -23,6 +24,7 @@ export type Toast = {
           type="button"
           aria-label="Dismiss notification"
           title="Dismiss notification"
+          data-popover="Dismiss this notification"
           [disabled]="toast.leaving"
           (click)="dismissed.emit(toast.id)"
         >

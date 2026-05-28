@@ -1,17 +1,18 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ModalComponent } from './modal.component';
+import { PopoverDirective } from './popover.directive';
 
 @Component({
   selector: 'app-confirm-modal',
-  imports: [ModalComponent],
+  imports: [ModalComponent, PopoverDirective],
   template: `
     <app-modal [title]="title" (closed)="cancelled.emit()">
       <div class="confirm-content">
         <p>{{ message }}</p>
 
         <div class="confirm-actions">
-          <button type="button" class="ghost" (click)="cancelled.emit()">Cancel</button>
-          <button type="button" class="danger" (click)="confirmed.emit()">{{ confirmLabel }}</button>
+          <button type="button" class="ghost" data-popover="Cancel and close this dialog" (click)="cancelled.emit()">Cancel</button>
+          <button type="button" class="danger" data-popover="Confirm this action" (click)="confirmed.emit()">{{ confirmLabel }}</button>
         </div>
       </div>
     </app-modal>

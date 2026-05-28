@@ -1,6 +1,11 @@
 <article class="vehicle-card">
   <header class="vehicle-identity" [class.expanded]="vehicleExpanded">
-    <button type="button" class="vehicle-summary" (click)="toggleVehicle()" [attr.aria-expanded]="vehicleExpanded">
+    <button
+      type="button"
+      class="vehicle-summary"
+      (click)="toggleVehicle()"
+      [attr.aria-expanded]="vehicleExpanded"
+    >
       <span class="vehicle-title">{{ vehicle.brand }} {{ vehicle.model }}</span>
       <span class="vehicle-plate" *ngIf="vehicle.plateNumber">{{ vehicle.plateNumber }}</span>
     </button>
@@ -13,6 +18,7 @@
         [disabled]="deleting"
         aria-label="Edit vehicle"
         title="Edit vehicle"
+        data-popover="Edit this vehicle"
       >
         <app-icon name="pencil" />
       </button>
@@ -23,6 +29,8 @@
         [disabled]="deleting"
         [attr.aria-label]="deleting ? 'Deleting vehicle' : 'Delete vehicle'"
         [attr.title]="deleting ? 'Deleting vehicle' : 'Delete vehicle'"
+        appPopover
+        [attr.data-popover]="deleting ? 'Deleting this vehicle' : 'Delete this vehicle'"
       >
         <app-icon name="trash" />
       </button>
@@ -74,7 +82,12 @@
       </dl>
 
       <section class="expenses">
-        <button type="button" class="section-head" (click)="toggleExpenses()" [attr.aria-expanded]="expensesExpanded">
+        <button
+          type="button"
+          class="section-head"
+          (click)="toggleExpenses()"
+          [attr.aria-expanded]="expensesExpanded"
+        >
           <span class="section-title">Expenses</span>
           <span class="expense-count">{{ vehicle.expenses.length }}</span>
         </button>
@@ -124,7 +137,12 @@
               </label>
               <div class="expense-submit">
                 <span aria-hidden="true"></span>
-                <button type="submit" [disabled]="addingExpense">
+                <button
+                  type="submit"
+                  [disabled]="addingExpense"
+                  appPopover
+                  [attr.data-popover]="addingExpense ? 'Adding this expense' : 'Add this expense to the vehicle'"
+                >
                   {{ addingExpense ? 'Adding...' : 'Add expense' }}
                 </button>
               </div>
@@ -142,6 +160,8 @@
                   [disabled]="deletingExpenseId === expense.id"
                   [attr.aria-label]="deletingExpenseId === expense.id ? 'Deleting expense' : 'Delete expense'"
                   [attr.title]="deletingExpenseId === expense.id ? 'Deleting expense' : 'Delete expense'"
+                  appPopover
+                  [attr.data-popover]="deletingExpenseId === expense.id ? 'Deleting this expense' : 'Delete this expense'"
                 >
                   <app-icon name="trash" />
                 </button>

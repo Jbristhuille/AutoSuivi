@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IconComponent } from '../../shared/icon.component';
+import { PopoverDirective } from '../../shared/popover.directive';
 import { CreateExpensePayload, Vehicle } from '../vehicle.model';
 import { VehicleCardComponent } from '../vehicle-card/vehicle-card';
 
 @Component({
   selector: 'app-vehicle-list',
-  imports: [CommonModule, IconComponent, VehicleCardComponent],
+  imports: [CommonModule, IconComponent, PopoverDirective, VehicleCardComponent],
   templateUrl: './vehicle-list.html',
   styleUrl: './vehicle-list.scss',
 })

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IconComponent } from '../../shared/icon.component';
 import { LocalDatePipe } from '../../shared/local-date.pipe';
 import { MoneyPipe } from '../../shared/money.pipe';
+import { PopoverDirective } from '../../shared/popover.directive';
 import {
   getVehicleExpensesTotalCents,
   getVehicleInvestmentCents,
@@ -13,7 +14,7 @@ import { CreateExpensePayload, ExpenseForm, Vehicle } from '../vehicle.model';
 
 @Component({
   selector: 'app-vehicle-card',
-  imports: [CommonModule, FormsModule, IconComponent, LocalDatePipe, MoneyPipe],
+  imports: [CommonModule, FormsModule, IconComponent, LocalDatePipe, MoneyPipe, PopoverDirective],
   templateUrl: './vehicle-card.html',
   styleUrl: './vehicle-card.scss',
 })
