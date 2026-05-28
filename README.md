@@ -1,6 +1,6 @@
-# AutoSuivi
+# AutoTrack
 
-AutoSuivi is a local-first vehicle tracking application for managing purchased vehicles, restoration expenses, and estimated resale profitability.
+AutoTrack is a local-first vehicle tracking application for managing purchased vehicles, restoration expenses, and estimated resale profitability.
 
 This project is built with the help of Codex.
 

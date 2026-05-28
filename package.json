@@ -1,7 +1,7 @@
 {
-  "name": "autosuivi",
+  "name": "autotrack",
   "version": "1.0.0",
-  "description": "AutoSuivi is a local-first vehicle tracking application for managing purchased vehicles, restoration expenses, and estimated resale profitability.",
+  "description": "AutoTrack is a local-first vehicle tracking application for managing purchased vehicles, restoration expenses, and estimated resale profitability.",
   "private": true,
   "workspaces": [
     "src/client",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jbristhuille/AutoSuivi.git"
+    "url": "git+https://github.com/Jbristhuille/AutoTrack.git"
   },
   "keywords": [
     "vehicle",
@@ -28,7 +28,7 @@
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Jbristhuille/AutoSuivi/issues"
+    "url": "https://github.com/Jbristhuille/AutoTrack/issues"
   },
-  "homepage": "https://github.com/Jbristhuille/AutoSuivi#readme"
+  "homepage": "https://github.com/Jbristhuille/AutoTrack#readme"
 }

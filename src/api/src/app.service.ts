@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getStatus() {
     return {
-      name: 'AutoSuivi API',
+      name: 'AutoTrack API',
       status: 'ok',
     };
   }
